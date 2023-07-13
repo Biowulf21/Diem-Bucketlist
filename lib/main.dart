@@ -1,5 +1,5 @@
 import 'package:diem/constants/constants.dart';
-import 'package:diem/screens/home_page.dart';
+import 'package:diem/screens/list_page.dart';
 import 'package:diem/screens/map_page.dart';
 import 'package:diem/screens/people_page.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   final _mainMenuItem = <Widget>[
-    const HomePage(),
+    const ListPage(),
     const MapPage(),
     const PeoplePage()
   ];
