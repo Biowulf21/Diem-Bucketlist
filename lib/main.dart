@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    void _onTapBottomNavBarItem(int index) {
+    void onTapBottomNavBarItem(int index) {
       setState(() {
         _currentNavBarIndex = index;
       });
@@ -75,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: bottomNavBarItems,
         currentIndex: _currentNavBarIndex,
-        onTap: _onTapBottomNavBarItem,
+        onTap: onTapBottomNavBarItem,
       ),
       body: Center(
         child: _mainMenuItem.elementAt(_currentNavBarIndex),
