@@ -78,6 +78,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: _mainMenuItem.elementAt(_currentNavBarIndex),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
