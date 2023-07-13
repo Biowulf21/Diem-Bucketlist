@@ -24,10 +24,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: bismarck,
-            primary: bismarck,
-            secondary: laser,
-            tertiary: bone),
+          seedColor: bandicoot,
+        ),
         //color override
         useMaterial3: true,
       ),
