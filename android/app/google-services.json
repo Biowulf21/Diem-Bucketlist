@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "365874656451",
+    "project_id": "diem-ded38",
+    "storage_bucket": "diem-ded38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365874656451:android:8cabb3e1a3c0c6cd041e76",
+        "android_client_info": {
+          "package_name": "com.example.diem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365874656451-6k4i15md94m0jhe2lv4furf40ja25del.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZDxn_-IoTuE5tB52slNub5_0EOCT8gxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365874656451-6k4i15md94m0jhe2lv4furf40ja25del.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
