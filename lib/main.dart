@@ -1,4 +1,7 @@
 import 'package:diem/constants/constants.dart';
+import 'package:diem/screens/home_page.dart';
+import 'package:diem/screens/map_page.dart';
+import 'package:diem/screens/people_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -46,9 +49,15 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentNavBarIndex = 0;
 
   final bottomNavBarItems = <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-    BottomNavigationBarItem(icon: Icon(Icons.map), label: "Map"),
-    BottomNavigationBarItem(icon: Icon(Icons.people), label: "People"),
+    const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+    const BottomNavigationBarItem(icon: Icon(Icons.map), label: "Map"),
+    const BottomNavigationBarItem(icon: Icon(Icons.people), label: "People"),
+  ];
+
+  final _mainMenuItem = <Widget>[
+    const HomePage(),
+    const MapPage(),
+    const PeoplePage()
   ];
 
   @override
@@ -69,10 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onTapBottomNavBarItem,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[],
-        ),
+        child: _mainMenuItem.elementAt(_currentNavBarIndex),
       ),
     );
   }
