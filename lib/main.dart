@@ -1,4 +1,5 @@
 import 'package:diem/constants/constants.dart';
+import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/screens/list_page.dart';
 import 'package:diem/screens/map_page.dart';
 import 'package:diem/screens/people_page.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         //color override
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: AuthWidget(),
     );
   }
 }
@@ -78,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
