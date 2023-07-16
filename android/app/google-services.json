@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1001705598101",
+    "project_id": "diem-d90b8",
+    "storage_bucket": "diem-d90b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001705598101:android:6c98fccd7e10d68f49ff9c",
+        "android_client_info": {
+          "package_name": "com.example.diem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001705598101-fts0f2ea17p6ivcqsap09je3t14pugrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.diem",
+            "certificate_hash": "4560d55b4f8b2c92bfa2278bd26d0291e22ac8fc"
+          }
+        },
+        {
+          "client_id": "1001705598101-uiova365ccp2gmeus84s6g27gc34ff8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn1GGyypNZG64iUfH9yRKj2JRw0qvcR-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001705598101-uiova365ccp2gmeus84s6g27gc34ff8m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1001705598101-kdhg27ad64mnqk932bhth949uv2a99cj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.diem.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
