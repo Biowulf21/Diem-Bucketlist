@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-          key: _loginFormState,
+          key: _loginFormKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -31,28 +31,29 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   key: _signInEmailKey,
+                  controller: _signInEmailController,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   key: _signInPasswordKey,
+                  controller: _signInPasswordController,
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   final String? email = _signInEmailKey.currentState?.value;
                   final String? password =
                       _signInPasswordKey.currentState?.value;
 
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Oten'),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
+                  print('hello');
+                  // await AuthFirebase().createAccountWithEmailAndPassword(
+                  //     _signInEmailController.text.trim(),
+                  //     _signInPasswordController.text.trim());
+                  await AuthFirebase().signOut();
                 },
-                child: Text("Login"),
+                child: const Text("Login"),
               )
             ],
           )),
