@@ -10,6 +10,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   GlobalKey<FormFieldState> _signInKey = GlobalKey<FormFieldState>();
+  GlobalKey<FormFieldState> _signInEmailKey = GlobalKey<FormFieldState>();
+  GlobalKey<FormFieldState> _signInPasswordKey = GlobalKey<FormFieldState>();
+  GlobalKey<FormState> _loginFormState = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Form(
