@@ -48,11 +48,10 @@ class _LoginPageState extends State<LoginPage> {
                   final String? password =
                       _signInPasswordKey.currentState?.value;
 
-                  print('hello');
-                  // await AuthFirebase().createAccountWithEmailAndPassword(
-                  //     _signInEmailController.text.trim(),
-                  //     _signInPasswordController.text.trim());
-                  await AuthFirebase().signOut();
+                  await AuthFirebase().signInWithEmailAndPassword(
+                      _signInEmailController.text.trim(),
+                      _signInPasswordController.text.trim());
+                  // await AuthFirebase().signOut();
                 },
                 child: const Text("Login"),
               )

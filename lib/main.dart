@@ -12,14 +12,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  final bool IS_USING_EMULATORS = true;
+  const bool isUsingEmulators = true;
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  if (IS_USING_EMULATORS) {
+  if (isUsingEmulators) {
     connectToEmulators();
   }
 
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         //color override
         useMaterial3: true,
       ),
-      home: AuthWidget(),
+      home: const AuthWidget(),
     );
   }
 }
