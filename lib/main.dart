@@ -1,18 +1,38 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diem/constants/constants.dart';
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/screens/list_page.dart';
 import 'package:diem/screens/map_page.dart';
 import 'package:diem/screens/people_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  final bool IS_USING_EMULATORS = true;
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  if (IS_USING_EMULATORS) {
+    connectToEmulators();
+  }
+
   runApp(const MyApp());
+}
+
+void connectToEmulators() async {
+  final yourLocalIp = Platform.isAndroid ? "127.0.0.1" : "localhost";
+  print("connecting to emulators...");
+
+  FirebaseFirestore.instance.useFirestoreEmulator("127.0.0.1", 8080);
+  await FirebaseAuth.instance.useAuthEmulator("127.0.0.1", 9099);
+  print("done");
 }
 
 class MyApp extends StatelessWidget {
