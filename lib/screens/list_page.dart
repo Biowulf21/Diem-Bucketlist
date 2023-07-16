@@ -1,3 +1,4 @@
+import 'package:diem/features/authentication/repositories/auth.dart';
 import 'package:flutter/material.dart';
 
 class ListPage extends StatefulWidget {
@@ -10,8 +11,12 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Home"),
+    return Center(
+      child: TextButton(
+          onPressed: () {
+            Auth().signOut();
+          },
+          child: const Text("Logout")),
     );
   }
 }
