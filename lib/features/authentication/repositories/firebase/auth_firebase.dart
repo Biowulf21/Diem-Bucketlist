@@ -1,7 +1,7 @@
+import 'package:diem/features/authentication/repositories/firebase/auth_firebase_interface.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:diem/features/authentication/repositories/auth_interface.dart';
 
-class Auth implements AuthInterface {
+class AuthFirebase implements AuthInterface {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
