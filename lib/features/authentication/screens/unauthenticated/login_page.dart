@@ -9,22 +9,46 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  GlobalKey<FormFieldState> _signInKey = GlobalKey<FormFieldState>();
   GlobalKey<FormFieldState> _signInEmailKey = GlobalKey<FormFieldState>();
   GlobalKey<FormFieldState> _signInPasswordKey = GlobalKey<FormFieldState>();
   GlobalKey<FormState> _loginFormState = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Form(
-        child: Column(
-      children: [
-        TextFormField(
-          key: _signInKey,
-        ),
-        TextFormField(
-          key: _signInKey,
-        )
-      ],
-    ));
+    return Scaffold(
+      body: Form(
+          key: _loginFormState,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  key: _signInEmailKey,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  key: _signInPasswordKey,
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  final String? email = _signInEmailKey.currentState?.value;
+                  final String? password =
+                      _signInPasswordKey.currentState?.value;
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Oten'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                },
+                child: Text("Login"),
+              )
+            ],
+          )),
+    );
   }
 }
