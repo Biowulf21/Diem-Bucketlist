@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class NewLifeItemPage extends StatefulWidget {
-  const NewLifeItemPage({super.key});
+class NewLifeGoalPage extends StatefulWidget {
+  const NewLifeGoalPage({super.key});
 
   @override
-  State<NewLifeItemPage> createState() => _NewLifeItemPageState();
+  State<NewLifeGoalPage> createState() => _NewLifeGoalPageState();
 }
 
-class _NewLifeItemPageState extends State<NewLifeItemPage> {
+class _NewLifeGoalPageState extends State<NewLifeGoalPage> {
   @override
   Widget build(BuildContext context) {
     return const Center(
