@@ -10,6 +10,7 @@ class LifeItem {
   bool isCompleted;
   List<LifeItemCategory>? categories;
   String? location;
+  String? notes;
   String? image;
 
   LifeItem(
@@ -19,5 +20,6 @@ class LifeItem {
       required this.isCompleted,
       this.categories,
       this.location,
+      this.notes,
       this.image});
 }
