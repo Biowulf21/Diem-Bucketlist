@@ -1,5 +1,5 @@
+import 'package:diem/features/bucket_list/repositories/life_item/life_item_repository.dart';
 import 'package:diem/models/life_item.dart';
-import 'package:diem/repositories/life_item_repository.dart';
 
 class LifeItemRepositoryImpl implements LifeItemRepository {
   Future<void> addLifeItem(LifeItem lifeItem) async {
