@@ -8,6 +8,8 @@ class NewLifeGoalPage extends StatefulWidget {
 }
 
 class _NewLifeGoalPageState extends State<NewLifeGoalPage> {
+  TextEditingController _goalTitleController = TextEditingController();
+  TextEditingController _goalDescriptionController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return const Center(
