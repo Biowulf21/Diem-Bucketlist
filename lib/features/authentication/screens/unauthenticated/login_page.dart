@@ -11,9 +11,14 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  GlobalKey<FormFieldState> _signInEmailKey = GlobalKey<FormFieldState>();
-  GlobalKey<FormFieldState> _signInPasswordKey = GlobalKey<FormFieldState>();
-  GlobalKey<FormState> _loginFormState = GlobalKey<FormState>();
+  final GlobalKey<FormFieldState> _signInEmailKey = GlobalKey<FormFieldState>();
+  final TextEditingController _signInEmailController = TextEditingController();
+  final GlobalKey<FormFieldState> _signInPasswordKey =
+      GlobalKey<FormFieldState>();
+  final TextEditingController _signInPasswordController =
+      TextEditingController();
+
+  final _loginFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
