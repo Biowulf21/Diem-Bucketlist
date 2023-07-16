@@ -1,4 +1,4 @@
-import 'package:diem/models/life_item.dart';
+import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:flutter/material.dart';
 
 class LifeItemWidget extends StatelessWidget {
