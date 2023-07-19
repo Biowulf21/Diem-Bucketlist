@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diem/constants/constants.dart';
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
+import 'package:diem/features/bucket_list/models/life_goal/life_goal_category.dart';
 import 'package:diem/screens/list_page.dart';
 import 'package:diem/screens/map_page.dart';
 import 'package:diem/screens/people_page.dart';
@@ -129,8 +130,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: const InputDecoration(
                       label: Text("Description"), hintMaxLines: 4),
                 ),
-                Text("Categories"),
-                _chipList(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Text("Categories"),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.0),
+                  child: _chipList(),
+                ),
                 TextFormField(
                   decoration: const InputDecoration(
                       label: Text("Location"), hintMaxLines: 4),
@@ -158,40 +165,49 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _chipList() {
-    return Wrap(
-      spacing: 6.0,
-      runSpacing: 6.0,
-      children: <Widget>[
-        _buildChip(
-          'Gamer',
-        ),
-        _buildChip(
-          'Hacker',
-        ),
-        _buildChip(
-          'Developer',
-        ),
-        _buildChip(
-          'Racer',
-        ),
-        _buildChip(
-          'Traveller',
-        ),
-      ],
-    );
-  }
+    List<String> _lifeGoalCategories =
+        LifeGoalCategory.values.map((category) => category.name).toList();
 
-  Widget _buildChip(String label) {
-    return Chip(
-      labelPadding: EdgeInsets.all(2.0),
-      avatar: CircleAvatar(
-        backgroundColor: Colors.white70,
-        child: Text(label[0].toUpperCase()),
+    return Wrap(
+        spacing: 6.0,
+        runSpacing: 6.0,
+        children: _lifeGoalCategories
+            .map(
+              (e) => CustomChip(label: e),
+            )
+            .toList());
+  }
+}
+
+class CustomChip extends StatefulWidget {
+  CustomChip({super.key, required this.label});
+
+  String label;
+
+  @override
+  State<CustomChip> createState() => _CustomChipState();
+}
+
+class _CustomChipState extends State<CustomChip> {
+  bool isSelected = false;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isSelected = !isSelected;
+        });
+      },
+      child: Chip(
+        labelPadding: const EdgeInsets.all(2.0),
+        label: Text(widget.label),
+        elevation: 6.0,
+        backgroundColor: isSelected == true
+            ? Theme.of(context).colorScheme.inversePrimary
+            : Theme.of(context).colorScheme.background,
+        shadowColor: Colors.grey[60],
+        padding: const EdgeInsets.all(8.0),
       ),
-      label: Text(label),
-      elevation: 6.0,
-      shadowColor: Colors.grey[60],
-      padding: EdgeInsets.all(8.0),
     );
   }
 }
