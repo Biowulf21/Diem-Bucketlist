@@ -88,6 +88,8 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
+    List<LifeGoalCategory> lifeGoalCategories = [];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -101,13 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _mainMenuItem.elementAt(_currentNavBarIndex),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _newLifeGoalModal(context),
+        onPressed: () => _newLifeGoalModal(context, lifeGoalCategories),
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  void _newLifeGoalModal(BuildContext context) {
+  void _newLifeGoalModal(
+      BuildContext context, List<LifeGoalCategory> lifeGoalCategories) {
     TextEditingController titleController = TextEditingController();
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -200,13 +203,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
     ElevatedButton addCategory = ElevatedButton(
       onPressed: () {},
-      child: Icon(Icons.add),
+      child: const Icon(Icons.add),
     );
 
-    return Wrap(
-      children: [..._categoriesToChips, addCategory],
-      spacing: 6.0,
-      runSpacing: 6.0,
+    return Container(
+      child: Wrap(
+        children: [..._categoriesToChips, addCategory],
+        spacing: 6.0,
+        runSpacing: 6.0,
+      ),
     );
   }
 }
