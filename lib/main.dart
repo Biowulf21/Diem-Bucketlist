@@ -129,10 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: const InputDecoration(
                       label: Text("Description"), hintMaxLines: 4),
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      label: Text("Categories"), hintMaxLines: 4),
-                ),
+                Text("Categories"),
+                _chipList(),
                 TextFormField(
                   decoration: const InputDecoration(
                       label: Text("Location"), hintMaxLines: 4),
