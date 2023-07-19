@@ -8,7 +8,7 @@ class LifeItem {
   String title;
   String description;
   bool isCompleted;
-  List<LifeItemCategory>? categories;
+  List<LifeGoalCategory>? categories;
   String? location;
   String? notes;
   String? image;
