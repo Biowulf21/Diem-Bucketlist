@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends ConsumerStatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({super.key}) : super();
 
   @override
   // State<MyHomePage> createState() => _MyHomePageState();
