@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _newLifeGoalModal(
       BuildContext context, List<LifeGoalCategory> lifeGoalCategories) {
     TextEditingController titleController = TextEditingController();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     showModalBottomSheet(
       isScrollControlled: true,
@@ -126,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Form(
-                key: _formKey,
+                key: formKey,
                 child: ListView(children: [
                   TextFormField(
                     controller: titleController,
@@ -159,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Text("Categories"),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
                     child: _chipList(),
                   ),
                   TextFormField(
@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.only(top: 15.0),
                     child: ElevatedButton(
                         onPressed: () {
-                          _formKey.currentState!.validate();
+                          formKey.currentState!.validate();
                         },
                         child: const Text("CREATE NEW LIFE GOAL")),
                   )
@@ -192,10 +192,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _chipList() {
-    List<String> _lifeGoalCategories =
+    List<String> lifeGoalCategories =
         LifeGoalCategory.values.map((category) => category.name).toList();
 
-    List<Widget> _categoriesToChips = _lifeGoalCategories
+    List<Widget> categoriesToChips = lifeGoalCategories
         .map(
           (e) => CustomChip(label: e),
         )
@@ -208,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Container(
       child: Wrap(
-        children: [..._categoriesToChips, addCategory],
+        children: [...categoriesToChips, addCategory],
         spacing: 6.0,
         runSpacing: 6.0,
       ),
