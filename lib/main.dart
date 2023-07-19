@@ -7,6 +7,7 @@ import 'package:diem/features/bucket_list/models/life_goal/life_goal_category.da
 import 'package:diem/screens/list_page.dart';
 import 'package:diem/screens/map_page.dart';
 import 'package:diem/screens/people_page.dart';
+import 'package:diem/utils/input_validator.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -129,10 +130,26 @@ class _MyHomePageState extends State<MyHomePage> {
                     decoration: const InputDecoration(
                       label: Text("Title"),
                     ),
+                    validator: (value) {
+                      String? validationResult = InputValidator(input: value)
+                          .isRequired()
+                          .maxLength(maxLength: 20)
+                          .validate();
+
+                      return validationResult;
+                    },
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
                         label: Text("Description"), hintMaxLines: 4),
+                    validator: (value) {
+                      String? result = InputValidator(input: value)
+                          .isRequired()
+                          .maxLength(maxLength: 250)
+                          .validate();
+
+                      return result;
+                    },
                   ),
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0),
@@ -157,7 +174,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   Padding(
                     padding: const EdgeInsets.only(top: 15.0),
                     child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _formKey.currentState!.validate();
+                        },
                         child: const Text("CREATE NEW LIFE GOAL")),
                   )
                 ]),
