@@ -7,6 +7,7 @@ import 'package:diem/features/bucket_list/models/life_goal/life_goal_category.da
 import 'package:diem/screens/list_page.dart';
 import 'package:diem/screens/map_page.dart';
 import 'package:diem/screens/people_page.dart';
+import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -176,38 +177,5 @@ class _MyHomePageState extends State<MyHomePage> {
               (e) => CustomChip(label: e),
             )
             .toList());
-  }
-}
-
-class CustomChip extends StatefulWidget {
-  CustomChip({super.key, required this.label});
-
-  String label;
-
-  @override
-  State<CustomChip> createState() => _CustomChipState();
-}
-
-class _CustomChipState extends State<CustomChip> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          isSelected = !isSelected;
-        });
-      },
-      child: Chip(
-        labelPadding: const EdgeInsets.all(2.0),
-        label: Text(widget.label),
-        elevation: 6.0,
-        backgroundColor: isSelected == true
-            ? Theme.of(context).colorScheme.inversePrimary
-            : Theme.of(context).colorScheme.background,
-        shadowColor: Colors.grey[60],
-        padding: const EdgeInsets.all(8.0),
-      ),
-    );
   }
 }
