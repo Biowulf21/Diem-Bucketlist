@@ -12,14 +12,14 @@ class InputValidator {
     }
   }
 
-  void lengthIsLessThan(int desiredLength) {
+  void lengthIsLessThan({required int desiredLength}) {
     if (input.length < desiredLength) {
       errorMessage =
           "The input is less than the desired length of ${desiredLength} characters.";
     }
   }
 
-  void maxLength(int maxLength) {
+  void maxLength({required int maxLength}) {
     if (input.length > maxLength) {
       errorMessage =
           "The input is too long for a max length of ${maxLength} characters.";
