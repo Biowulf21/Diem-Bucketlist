@@ -2,13 +2,13 @@ import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/repositories/life_goals/life_goal_repository.dart';
 
 class LifeGoalImplRepository implements LifeGoalRepository {
-  Future<void> addLifeItem(LifeItem lifeItem) async {
+  Future<void> addLifeItem(LifeGoal lifeItem) async {
     return Future(() => null);
   }
 
-  Future<List<LifeItem>> fetchLifeItems() {
+  Future<List<LifeGoal>> fetchLifeItems() {
     return Future(() => [
-          LifeItem(
+          LifeGoal(
               id: "hehe",
               title: "try lang",
               description: "dse",

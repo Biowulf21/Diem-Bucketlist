@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class LifeGoalWidget extends StatelessWidget {
   const LifeGoalWidget({super.key, required this.item});
-  final LifeItem item;
+  final LifeGoal item;
 
   @override
   Widget build(BuildContext context) {
