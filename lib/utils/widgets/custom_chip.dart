@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomChip extends StatefulWidget {
-  CustomChip({super.key, required this.label});
+class CustomChip extends ConsumerStatefulWidget {
+  CustomChip({super.key, required this.label}) : super();
 
-  String label;
+  final String label;
 
   @override
-  State<CustomChip> createState() => _CustomChipState();
+  CustomChipState createState() => CustomChipState();
 }
 
-class _CustomChipState extends State<CustomChip> {
+class CustomChipState extends ConsumerState<CustomChip> {
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class _CustomChipState extends State<CustomChip> {
             : null,
         side: isSelected
             ? BorderSide(color: Theme.of(context).colorScheme.primary)
-            : const BorderSide(),
+            : const BorderSide(color: Colors.grey),
         labelPadding: const EdgeInsets.all(2.0),
         label: Text(widget.label),
         elevation: 6.0,
