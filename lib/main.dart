@@ -158,6 +158,31 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
+
+  _chipList() {
+    return Wrap(
+      spacing: 6.0,
+      runSpacing: 6.0,
+      children: <Widget>[
+        _buildChip(
+          'Gamer',
+        ),
+        _buildChip(
+          'Hacker',
+        ),
+        _buildChip(
+          'Developer',
+        ),
+        _buildChip(
+          'Racer',
+        ),
+        _buildChip(
+          'Traveller',
+        ),
+      ],
+    );
+  }
+
   Widget _buildChip(String label) {
     return Chip(
       labelPadding: EdgeInsets.all(2.0),
