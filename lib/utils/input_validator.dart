@@ -1,48 +1,60 @@
 class InputValidator {
-  String input;
+  String? input;
   String? errorMessage;
 
   InputValidator({
     required this.input,
   });
 
-  void isNotNullable() {
-    if (input == "" || input.isEmpty) {
-      errorMessage = "This value cannot be null";
+  InputValidator isRequired() {
+    if (input == "" || input!.isEmpty) {
+      errorMessage = "This value cannot be null.";
     }
+    return this;
   }
 
-  void lengthIsLessThan({required int desiredLength}) {
-    if (input.length < desiredLength) {
+  InputValidator lengthIsLessThan({required int desiredLength}) {
+    if (input!.length < desiredLength) {
       errorMessage =
           "The input is less than the desired length of ${desiredLength} characters.";
     }
+    return this;
   }
 
-  void maxLength({required int maxLength}) {
-    if (input.length > maxLength) {
+  InputValidator maxLength({required int maxLength}) {
+    if (input!.length > maxLength) {
       errorMessage =
           "The input is too long for a max length of ${maxLength} characters.";
     }
+    return this;
   }
 
-  void hasAlphaCharacters() {
-    if (input.contains(RegExp(r'[A-Z]'))) {}
+  InputValidator hasAlphaCharacters() {
+    if (input!.contains(RegExp(r'[A-Z]'))) {
+      return this;
+    }
 
     errorMessage = "The input does not have an uppercase character.";
+    return this;
   }
 
-  void hasNumericCharacters() {
-    if (input.contains(RegExp(r'[0-9]'))) {}
+  InputValidator hasNumericCharacters() {
+    if (input!.contains(RegExp(r'[0-9]'))) {
+      return this;
+    }
 
     errorMessage = "The input does not have a numeric character.";
+    return this;
   }
 
-  void hasSpecialCharacter() {
-    if (input
-        .contains(RegExp(r'[\^$*.\[\]{}()?\-"!@#%&/\,><:;_~`+=' "'" ']'))) {}
+  InputValidator hasSpecialCharacter() {
+    if (input!
+        .contains(RegExp(r'[\^$*.\[\]{}()?\-"!@#%&/\,><:;_~`+=' "'" ']'))) {
+      return this;
+    }
 
     errorMessage = "The input does not have a special character.";
+    return this;
   }
 
   String? validate() {
