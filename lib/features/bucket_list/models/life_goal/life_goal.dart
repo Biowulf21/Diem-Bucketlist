@@ -3,7 +3,7 @@
 
 import 'package:diem/features/bucket_list/models/life_goal/life_goal_category.dart';
 
-class LifeItem {
+class LifeGoal {
   String id;
   String title;
   String description;
@@ -13,7 +13,7 @@ class LifeItem {
   String? notes;
   String? image;
 
-  LifeItem(
+  LifeGoal(
       {required this.id,
       required this.title,
       required this.description,
