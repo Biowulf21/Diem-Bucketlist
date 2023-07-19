@@ -63,7 +63,6 @@ class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key}) : super();
 
   @override
-  // State<MyHomePage> createState() => _MyHomePageState();
   MyHomePageState createState() => MyHomePageState();
 }
 
@@ -84,6 +83,8 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final lifeGoals = ref.watch(lifeGoalListProvider);
+
     void onTapBottomNavBarItem(int index) {
       setState(() {
         _currentNavBarIndex = index;
