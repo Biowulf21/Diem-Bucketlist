@@ -20,6 +20,18 @@ class _CustomChipState extends State<CustomChip> {
         });
       },
       child: Chip(
+        avatar: isSelected
+            // ignore: avoid_unnecessary_containers
+            ? Container(
+                child: const Icon(
+                  Icons.check,
+                  color: Colors.green,
+                ),
+              )
+            : null,
+        side: isSelected
+            ? BorderSide(color: Theme.of(context).colorScheme.primary)
+            : const BorderSide(),
         labelPadding: const EdgeInsets.all(2.0),
         label: Text(widget.label),
         elevation: 6.0,
