@@ -98,9 +98,64 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _mainMenuItem.elementAt(_currentNavBarIndex),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _newLifeGoalModal(context),
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  void _newLifeGoalModal(BuildContext context) {
+    TextEditingController titleController = TextEditingController();
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 500,
+          child: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ListView(children: [
+                TextFormField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    label: Text("Title"),
+                  ),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      label: Text("Description"), hintMaxLines: 4),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      label: Text("Categories"), hintMaxLines: 4),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      label: Text("Location"), hintMaxLines: 4),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      label: Text("Notes"), hintMaxLines: 4),
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      label: Text("Image"), hintMaxLines: 4),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text("CREATE NEW LIFE GOAL")),
+                )
+              ]),
+            ),
+          ),
+        );
+      },
     );
   }
 }
