@@ -108,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _newLifeGoalModal(BuildContext context) {
     TextEditingController titleController = TextEditingController();
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
     showModalBottomSheet(
       isScrollControlled: true,
@@ -120,44 +121,47 @@ class _MyHomePageState extends State<MyHomePage> {
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: ListView(children: [
-                TextFormField(
-                  controller: titleController,
-                  decoration: const InputDecoration(
-                    label: Text("Title"),
+              child: Form(
+                key: _formKey,
+                child: ListView(children: [
+                  TextFormField(
+                    controller: titleController,
+                    decoration: const InputDecoration(
+                      label: Text("Title"),
+                    ),
                   ),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      label: Text("Description"), hintMaxLines: 4),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Text("Categories"),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: _chipList(),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      label: Text("Location"), hintMaxLines: 4),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      label: Text("Notes"), hintMaxLines: 4),
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      label: Text("Image"), hintMaxLines: 4),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("CREATE NEW LIFE GOAL")),
-                )
-              ]),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        label: Text("Description"), hintMaxLines: 4),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Text("Categories"),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.0),
+                    child: _chipList(),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        label: Text("Location"), hintMaxLines: 4),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        label: Text("Notes"), hintMaxLines: 4),
+                  ),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                        label: Text("Image"), hintMaxLines: 4),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text("CREATE NEW LIFE GOAL")),
+                  )
+                ]),
+              ),
             ),
           ),
         );
@@ -169,13 +173,21 @@ class _MyHomePageState extends State<MyHomePage> {
     List<String> _lifeGoalCategories =
         LifeGoalCategory.values.map((category) => category.name).toList();
 
+    List<Widget> _categoriesToChips = _lifeGoalCategories
+        .map(
+          (e) => CustomChip(label: e),
+        )
+        .toList();
+
+    ElevatedButton addCategory = ElevatedButton(
+      onPressed: () {},
+      child: Icon(Icons.add),
+    );
+
     return Wrap(
-        spacing: 6.0,
-        runSpacing: 6.0,
-        children: _lifeGoalCategories
-            .map(
-              (e) => CustomChip(label: e),
-            )
-            .toList());
+      children: [..._categoriesToChips, addCategory],
+      spacing: 6.0,
+      runSpacing: 6.0,
+    );
   }
 }
