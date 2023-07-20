@@ -34,8 +34,8 @@ void connectToEmulators() async {
   final yourLocalIp = Platform.isAndroid ? "127.0.0.1" : "localhost";
   print("connecting to emulators...");
 
-  FirebaseFirestore.instance.useFirestoreEmulator("127.0.0.1", 8080);
-  await FirebaseAuth.instance.useAuthEmulator("127.0.0.1", 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator(yourLocalIp, 8080);
+  await FirebaseAuth.instance.useAuthEmulator(yourLocalIp, 9099);
   print("done");
 }
 
