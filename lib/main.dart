@@ -92,31 +92,35 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
 
     List<LifeGoalCategory> lifeGoalCategories = [];
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: bottomNavBarItems,
-        currentIndex: _currentNavBarIndex,
-        onTap: onTapBottomNavBarItem,
-      ),
-      body: Center(
-        child: _mainMenuItem.elementAt(_currentNavBarIndex),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _newLifeGoalModal(context, lifeGoalCategories),
-        child: const Icon(Icons.add),
-      ),
-    );
+    return Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: bottomNavBarItems,
+          currentIndex: _currentNavBarIndex,
+          onTap: onTapBottomNavBarItem,
+        ),
+        body: Center(
+          child: _mainMenuItem.elementAt(_currentNavBarIndex),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _newLifeGoalModal(context, lifeGoalCategories),
+          child: const Icon(Icons.add),
+        ),
+      );
+    });
   }
 
   void _newLifeGoalModal(
-      BuildContext context, List<LifeGoalCategory> lifeGoalCategories) {
+      BuildContext context, List<LifeGoalCategory> lifeGoalCategories) async {
     TextEditingController titleController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-    showModalBottomSheet(
+    await showModalBottomSheet(
+      showDragHandle: true,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
@@ -130,12 +134,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
               child: Form(
                 key: formKey,
                 child: ListView(children: [
-                  Text(ref
-                      .read(selectedCategoryNotifier.notifier)
-                      .getSelectedCategories()
-                      .toList()
-                      .map((e) => '${e.label}')
-                      .toString()),
                   TextFormField(
                     controller: titleController,
                     decoration: const InputDecoration(
@@ -196,6 +194,9 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
           ),
         );
       },
+    ).whenComplete(
+      () =>
+          ref.read(selectedCategoryNotifier.notifier).clearSelectedCategories(),
     );
   }
 
