@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diem/constants/constants.dart';
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
+import 'package:diem/features/bucket_list/providers/life_goal_category_provider.dart';
 import 'package:diem/screens/list_page.dart';
 import 'package:diem/screens/map_page.dart';
 import 'package:diem/screens/people_page.dart';
@@ -129,6 +130,12 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
               child: Form(
                 key: formKey,
                 child: ListView(children: [
+                  Text(ref
+                      .read(selectedCategoryNotifier.notifier)
+                      .getSelectedCategories()
+                      .toList()
+                      .map((e) => '${e.label}')
+                      .toString()),
                   TextFormField(
                     controller: titleController,
                     decoration: const InputDecoration(
@@ -193,17 +200,8 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   _chipList() {
-    final List<String> _defaultGoalCategoryNames = [
-      'family',
-      'travel',
-      'health',
-      'finance',
-      'personal',
-      'career',
-      'education',
-      'creative',
-      'relationship'
-    ];
+    final List<String> _defaultGoalCategoryNames =
+        ref.watch(defaultGoalCategoryProvider);
 
     Map<int, String> _defaultGoalCategoryNamesMap =
         _defaultGoalCategoryNames.asMap();

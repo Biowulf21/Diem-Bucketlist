@@ -1,3 +1,6 @@
+import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
+import 'package:diem/features/bucket_list/providers/life_goal_category_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +22,15 @@ class CustomChipState extends ConsumerState<CustomChip> {
         setState(() {
           isSelected = !isSelected;
         });
+        if (isSelected) {
+          ref.read(selectedCategoryNotifier.notifier).addSelectedCategory(
+              LifeGoalCategory(label: widget.label, id: widget.label));
+        } else {
+          ref
+              .read(selectedCategoryNotifier.notifier)
+              .removeFromSelectedCategory(
+                  LifeGoalCategory(label: widget.label, id: widget.label));
+        }
       },
       child: Chip(
         avatar: isSelected
