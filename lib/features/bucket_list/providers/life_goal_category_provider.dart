@@ -33,7 +33,6 @@ class SelectedGoalCategoryNotifier
       for (final category in state)
         if (category.label != removeCategory.label) category,
     ];
-    print(state.map((e) => e.label));
     return state;
   }
 
