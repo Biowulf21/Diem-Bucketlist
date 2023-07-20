@@ -83,8 +83,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final lifeGoals = ref.watch(lifeGoalListProvider);
-
     void onTapBottomNavBarItem(int index) {
       setState(() {
         _currentNavBarIndex = index;
@@ -195,13 +193,27 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   _chipList() {
-    List<String> lifeGoalCategories =
-        LifeGoalCategory.values.map((category) => category.name).toList();
+    final List<String> _defaultGoalCategoryNames = [
+      'family',
+      'travel',
+      'health',
+      'finance',
+      'personal',
+      'career',
+      'education',
+      'creative',
+      'relationship'
+    ];
 
-    List<Widget> categoriesToChips = lifeGoalCategories
-        .map(
-          (e) => CustomChip(label: e),
-        )
+    Map<int, String> _defaultGoalCategoryNamesMap =
+        _defaultGoalCategoryNames.asMap();
+
+    List<CustomChip> _defaultGoalCategories = _defaultGoalCategoryNamesMap
+        .map((key, value) =>
+            MapEntry(key, LifeGoalCategory(id: key.toString(), label: value)))
+        .values
+        .toList()
+        .map((cateogry) => CustomChip(label: cateogry.label))
         .toList();
 
     ElevatedButton addCategory = ElevatedButton(
@@ -211,7 +223,7 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
 
     return Container(
       child: Wrap(
-        children: [...categoriesToChips, addCategory],
+        children: [..._defaultGoalCategories, addCategory],
         spacing: 6.0,
         runSpacing: 6.0,
       ),
