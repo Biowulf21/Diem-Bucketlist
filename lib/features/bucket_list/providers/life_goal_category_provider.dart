@@ -37,6 +37,10 @@ class SelectedGoalCategoryNotifier
     return state;
   }
 
+  void clearSelectedCategories() {
+    state = [];
+  }
+
   List<LifeGoalCategory> getSelectedCategories() {
     return state;
   }
