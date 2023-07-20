@@ -27,12 +27,13 @@ class SelectedGoalCategoryNotifier
     state = [...state, category];
   }
 
-  List<LifeGoalCategory> removeFromSelectedCategory(LifeGoalCategory category) {
-    state = state
-        .toList()
-        .where((element) => category.label != element.label)
-        .toList();
-
+  List<LifeGoalCategory> removeFromSelectedCategory(
+      LifeGoalCategory removeCategory) {
+    state = [
+      for (final category in state)
+        if (category.label != removeCategory.label) category,
+    ];
+    print(state.map((e) => e.label));
     return state;
   }
 
