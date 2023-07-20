@@ -1,7 +1,7 @@
 // This will serve as the model for the life items
 // Life goals are items that are in the user's bucket list
 
-import 'package:diem/features/bucket_list/models/life_goal/life_goal_category.dart';
+import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 
 class LifeGoal {
   String id;
