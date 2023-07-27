@@ -38,6 +38,13 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
       image VARCHAR(255) NULL
     )
     ''');
+
+    await db.execute('''
+    CREATE TABLE for_synch(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      life_goal_id FOREIGN KEY (life_goal_id) REFERENCES life_goals(id),
+    )
+    ''');
   }
 
 // CRUD OPERATIONS
