@@ -13,7 +13,7 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
   Future<Database> get database async {
     if (_instance != null) return _instance!;
 
-    _instance = await _initDB('todo.db');
+    _instance = await _initDB('main.db');
     return _instance!;
   }
 
