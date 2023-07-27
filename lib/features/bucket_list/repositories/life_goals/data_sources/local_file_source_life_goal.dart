@@ -2,13 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
+import 'package:diem/features/bucket_list/repositories/life_goals/data_sources/abstract_data_source.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-abstract class LocalDataSourceLifeGoalInterface {}
-
-class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
+class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
   Database? _instance;
   Future<Database> get database async {
     if (_instance != null) return _instance!;
@@ -16,7 +15,6 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
     _instance = await _initDB('main.db');
     return _instance!;
   }
-
 
   Future<Database> _initDB(String filePath) async {
     Directory dbDirectory = await getApplicationSupportDirectory();
@@ -48,6 +46,7 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
   }
 
   // CRUD OPERATIONS
+  @override
   Future<List<LifeGoal>> getLifeGoals() async {
     Database db = await database;
     var lifeGoals = await db.query('life_goals', orderBy: 'date_created');
@@ -57,6 +56,7 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
     return lifeGoalList;
   }
 
+  @override
   Future<List<LifeGoal>> getDeletedLifeGoals() async {
     Database db = await database;
     var getDeletedLifeGoals = await db.rawQuery('''
@@ -69,19 +69,31 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
     return deletedLifeGoals;
   }
 
+  @override
   Future<int> addLifeGoal(LifeGoal lifeGoal) async {
     Database db = await database;
     return await db.insert('life_goals', lifeGoal.toJson());
   }
 
+  @override
   Future<int> removeLifeGoal(String id) async {
     Database db = await database;
     return await db.delete('life_goals', where: 'id = ?', whereArgs: [id]);
   }
 
+  @override
   Future<int> updateLifeGoal(LifeGoal lifeGoal) async {
     Database db = await database;
     return await db.update('life_goals', lifeGoal.toJson(),
         where: 'id = ?', whereArgs: [lifeGoal.id]);
+  }
+
+  @override
+  Future<LifeGoal> getLifeGoal(String id) async {
+    Database db = await database;
+    var lifeGoalFromDB =
+        await db.query('life_goal', where: 'id = ?', whereArgs: [id]);
+    LifeGoal lifeGoal = LifeGoal.fromJson(lifeGoalFromDB.first);
+    return lifeGoal;
   }
 }
