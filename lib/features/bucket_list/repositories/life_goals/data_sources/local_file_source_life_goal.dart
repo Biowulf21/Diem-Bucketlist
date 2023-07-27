@@ -17,8 +17,6 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
     return _instance!;
   }
 
-// LocalDataSourceLifeGoalInterface._privateConstructor();
-//   static final LocalDataSourceLifeGoalInterface instance = LocalDataSourceLifeGoalInterface._privateConstructor();
 
   Future<Database> _initDB(String filePath) async {
     Directory dbDirectory = await getApplicationSupportDirectory();
