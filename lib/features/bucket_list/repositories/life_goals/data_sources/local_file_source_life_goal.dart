@@ -20,7 +20,7 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
 
   Future<Database> _initDB(String filePath) async {
     Directory dbDirectory = await getApplicationSupportDirectory();
-    String path = join(dbDirectory.path, 'life_goal.db');
+    String path = join(dbDirectory.path, filePath);
     return await openDatabase(path, version: 1, onCreate: _onCreateDb);
   }
 
