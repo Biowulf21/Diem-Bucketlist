@@ -75,4 +75,8 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
     return await db.insert('life_goals', lifeGoal.toJson());
   }
 
+  Future<int> removeLifeGoal(String id) async {
+    Database db = await database;
+    return await db.rawDelete('''DELETE FROM life_goals WHERE id = $id''');
+  }
 }
