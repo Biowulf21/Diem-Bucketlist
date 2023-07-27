@@ -48,8 +48,14 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
   }
 
 // CRUD OPERATIONS
+  // CRUD OPERATIONS
   Future<List<LifeGoal>> getLifeGoals() async {
     Database db = await database;
-    var life_goals = await db.query('life_goals', orderBy: 'date_created');
+    var lifeGoals = await db.query('life_goals', orderBy: 'date_created');
+    List<LifeGoal> lifeGoalList = lifeGoals.isNotEmpty
+        ? lifeGoals.map((e) => LifeGoal.fromJson(e)).toList()
+        : [];
+    return lifeGoalList;
   }
+
 }
