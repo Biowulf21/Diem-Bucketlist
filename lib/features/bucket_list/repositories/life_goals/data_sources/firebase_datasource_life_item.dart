@@ -1,12 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
+import 'package:diem/features/bucket_list/repositories/life_goals/data_sources/abstract_data_source.dart';
 
-abstract class FirebaseDataSourceLifeGoalInterface {
-  Future<void> fetchLifeItems();
-}
-
-class FirebaseDataSourceLifeGoal
-    implements FirebaseDataSourceLifeGoalInterface {
+class FirebaseDataSourceLifeGoal implements AbstractDataSource {
   FirebaseFirestore instance = FirebaseFirestore.instance;
 
   Future<void> fetchLifeItems() async {}
+
+  @override
+  Future<int> addLifeGoal(LifeGoal lifeGoal) {
+    // TODO: implement addLifeGoal
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<LifeGoal>> getDeletedLifeGoals() {
+    // TODO: implement getDeletedLifeGoals
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<LifeGoal> getLifeGoal(String id) {
+    // TODO: implement getLifeGoal
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<LifeGoal>> getLifeGoals() {
+    // TODO: implement getLifeGoals
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> removeLifeGoal(String id) {
+    // TODO: implement removeLifeGoal
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> updateLifeGoal(LifeGoal lifegoal) {
+    // TODO: implement updateLifeGoal
+    throw UnimplementedError();
+  }
 }
