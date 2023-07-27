@@ -22,4 +22,27 @@ class LifeGoal {
       this.location,
       this.notes,
       this.image});
+
+  factory LifeGoal.fromJson(Map<String, dynamic> json) {
+    return LifeGoal(
+        id: json['id'],
+        title: json['title'],
+        description: json['description'],
+        isCompleted: json['isCompleted'],
+        categories: json['categories'],
+        location: json['location'],
+        notes: json['notes'],
+        image: json['image']);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'description': description,
+        'isCompleted': isCompleted,
+        'categories': categories,
+        'location': location,
+        'notes': notes,
+        'image': image
+      };
 }
