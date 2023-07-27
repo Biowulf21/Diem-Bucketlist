@@ -80,4 +80,9 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
     return await db.delete('life_goals', where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<int> updateLifeGoal(LifeGoal lifeGoal) async {
+    Database db = await database;
+    return await db.update('life_goals', lifeGoal.toJson(),
+        where: 'id = ?', whereArgs: [lifeGoal.id]);
+  }
 }
