@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diem/constants/constants.dart';
+import 'package:diem/features/authentication/screens/authenticated/list_page.dart';
+import 'package:diem/features/authentication/screens/authenticated/map_page.dart';
+import 'package:diem/features/authentication/screens/authenticated/people_page.dart';
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/providers/life_goal_category_provider.dart';
-import 'package:diem/screens/list_page.dart';
-import 'package:diem/screens/map_page.dart';
-import 'package:diem/screens/people_page.dart';
 import 'package:diem/utils/input_validator.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -173,6 +173,7 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                         label: Text("Location"), hintMaxLines: 4),
                   ),
                   TextFormField(
+                    maxLength: 300,
                     decoration: const InputDecoration(
                         label: Text("Notes"), hintMaxLines: 4),
                   ),
