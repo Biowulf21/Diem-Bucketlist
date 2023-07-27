@@ -4,7 +4,7 @@ abstract class FirebaseDataSourceLifeGoalInterface {
   Future<void> fetchLifeItems();
 }
 
-class FirebaseDataSourceLifeItem
+class FirebaseDataSourceLifeGoal
     implements FirebaseDataSourceLifeGoalInterface {
   FirebaseFirestore instance = FirebaseFirestore.instance;
 
