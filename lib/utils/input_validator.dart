@@ -1,4 +1,13 @@
-class InputValidator {
+abstract class AbstractInputValidator {
+  InputValidator isRequired();
+  InputValidator lengthIsLessThan({required int desiredLength});
+  InputValidator maxLength({required int maxLength});
+  InputValidator hasAlphaCharacters();
+  InputValidator hasNumericCharacters();
+  InputValidator hasSpecialCharacter();
+}
+
+class InputValidator implements AbstractInputValidator {
   String? input;
   String? errorMessage;
 
@@ -6,6 +15,7 @@ class InputValidator {
     required this.input,
   });
 
+  @override
   InputValidator isRequired() {
     if (input == "" || input!.isEmpty) {
       errorMessage = "This value cannot be null.";
@@ -13,22 +23,25 @@ class InputValidator {
     return this;
   }
 
+  @override
   InputValidator lengthIsLessThan({required int desiredLength}) {
     if (input!.length < desiredLength) {
       errorMessage =
-          "The input is less than the desired length of ${desiredLength} characters.";
+          "The input is less than the desired length of $desiredLength characters.";
     }
     return this;
   }
 
+  @override
   InputValidator maxLength({required int maxLength}) {
     if (input!.length > maxLength) {
       errorMessage =
-          "The input is too long for a max length of ${maxLength} characters.";
+          "The input is too long for a max length of $maxLength characters.";
     }
     return this;
   }
 
+  @override
   InputValidator hasAlphaCharacters() {
     if (input!.contains(RegExp(r'[A-Z]'))) {
       return this;
@@ -38,6 +51,7 @@ class InputValidator {
     return this;
   }
 
+  @override
   InputValidator hasNumericCharacters() {
     if (input!.contains(RegExp(r'[0-9]'))) {
       return this;
@@ -47,6 +61,7 @@ class InputValidator {
     return this;
   }
 
+  @override
   InputValidator hasSpecialCharacter() {
     if (input!
         .contains(RegExp(r'[\^$*.\[\]{}()?\-"!@#%&/\,><:;_~`+=' "'" ']'))) {
