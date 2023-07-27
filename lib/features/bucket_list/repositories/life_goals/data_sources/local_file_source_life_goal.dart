@@ -47,7 +47,6 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
     ''');
   }
 
-// CRUD OPERATIONS
   // CRUD OPERATIONS
   Future<List<LifeGoal>> getLifeGoals() async {
     Database db = await database;
