@@ -69,4 +69,10 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
 
     return deletedLifeGoals;
   }
+
+  Future<int> addLifeGoal(LifeGoal lifeGoal) async {
+    Database db = await database;
+    return await db.insert('life_goals', lifeGoal.toJson());
+  }
+
 }
