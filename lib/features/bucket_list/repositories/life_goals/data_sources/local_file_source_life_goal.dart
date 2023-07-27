@@ -26,11 +26,16 @@ class LocalDataSourceLifeGoalImpl implements LocalDataSourceLifeGoalInterface {
 
   FutureOr<void> _onCreateDb(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE life_goals()
+    CREATE TABLE life_goals(
       id INTEGER PRIMARY KEY,
-      title TEXT,
-      description TEXT,
-      isCompleted INTEGER
+      title TEXT NOT NULL,
+      description TEXT NOT NULL,
+      isCompleted BOOLEAN NOT NULL,
+      isDeleted BOOLEAN NULL,
+      dateDeleted TIMESTAMP NULL,
+      location VARCHAR(255) NULL,
+      notes TEXT NULL,
+      image VARCHAR(255) NULL
     )
     ''');
   }
