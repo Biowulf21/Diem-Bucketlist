@@ -11,12 +11,10 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: TextButton(
-          onPressed: () {
-            Auth().signOut();
-          },
-          child: const Text("Logout")),
+    List<Widget> listItems = <Widget>[Text('otin')];
+
+    return ListView(
+      children: [],
     );
   }
 }
