@@ -15,6 +15,7 @@ class ListPageState extends ConsumerState<ListPage> {
   @override
   Widget build(BuildContext context) {
     final counter = ref.watch(lifeGoalListProvider);
+
     List<Widget> lifeGoals = counter.when(loading: () {
       return [const Text("Loading")];
     }, error: (err, stack) {
