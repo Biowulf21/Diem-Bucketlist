@@ -31,6 +31,10 @@ class CustomChipState extends ConsumerState<CustomChip> {
               .removeFromSelectedCategory(
                   LifeGoalCategory(label: widget.label, id: widget.label));
         }
+        print(ref
+            .read(selectedCategoryNotifier.notifier)
+            .getSelectedCategories()
+            .map((e) => e.getLabel));
       },
       child: Chip(
         avatar: isSelected

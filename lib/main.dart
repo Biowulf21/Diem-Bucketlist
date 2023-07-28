@@ -91,8 +91,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
       });
     }
 
-    List<LifeGoalCategory> lifeGoalCategories = [];
-
     return Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
       return Scaffold(
@@ -108,16 +106,19 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
           child: _mainMenuItem.elementAt(_currentNavBarIndex),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _showBottomSheet(lifeGoalCategories),
+          onPressed: () => _showBottomSheet(),
           child: const Icon(Icons.add),
         ),
       );
     });
   }
 
-  void _showBottomSheet(List<LifeGoalCategory> lifeGoalCategories) {
+  void _showBottomSheet() {
     TextEditingController titleController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final selectedCategories = ref.watch(selectedCategoryNotifier);
+    final bool hasCategoriesSelected =
+        selectedCategories.isEmpty ? false : true;
 
     showModalBottomSheet(
         context: context,
@@ -135,6 +136,10 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                   child: Form(
                     key: formKey,
                     child: ListView(children: [
+                      Text(selectedCategories
+                          .map((element) => element.getLabel.toString())
+                          .join(", ")),
+
                       TextFormField(
                         controller: titleController,
                         decoration: const InputDecoration(
@@ -168,7 +173,7 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                       ),
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: lifeGoalCategories.isEmpty
+                          child: hasCategoriesSelected == false
                               ? Container(
                                   padding: const EdgeInsets.all(15.0),
                                   decoration: BoxDecoration(
@@ -223,26 +228,26 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
         });
   }
 
-  Future<Null> updated(StateSetter updateState) async {
-    updateState(() {
-      update = 'Update Leekan si';
-    });
-  }
-
-  void _newLifeGoalModal(
-      BuildContext context, List<LifeGoalCategory> lifeGoalCategories) async {
-    await showModalBottomSheet(
-      showDragHandle: true,
-      isScrollControlled: true,
-      context: context,
-      builder: (BuildContext context) {
-        return SizedBox(height: 500, child: Text("yawa"));
-      },
-    ).whenComplete(
-      () =>
-          ref.read(selectedCategoryNotifier.notifier).clearSelectedCategories(),
-    );
-  }
+  // Future<Null> updated(StateSetter updateState) async {
+  //   updateState(() {
+  //     update = 'Update Leekan si';
+  //   });
+  // }
+  //
+  // void _newLifeGoalModal(
+  //     BuildContext context, List<LifeGoalCategory> lifeGoalCategories) async {
+  //   await showModalBottomSheet(
+  //     showDragHandle: true,
+  //     isScrollControlled: true,
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return SizedBox(height: 500, child: Text("yawa"));
+  //     },
+  //   ).whenComplete(
+  //     () =>
+  //         ref.read(selectedCategoryNotifier.notifier).clearSelectedCategories(),
+  //   );
+  // }
 
   _chipList() {
     final List<String> _defaultGoalCategoryNames =
