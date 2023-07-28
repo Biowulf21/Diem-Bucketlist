@@ -1,5 +1,6 @@
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
+import 'package:diem/utils/database/life_goal_categories/life_goal_category_local_db_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final defaultGoalCategoryProvider = StateProvider<List<String>>((ref) => [
@@ -14,8 +15,8 @@ final defaultGoalCategoryProvider = StateProvider<List<String>>((ref) => [
       'relationship',
     ]);
 
-final selectedCategoryNotifier =
-    StateNotifierProvider<SelectedGoalCategoryNotifier, List<LifeGoalCategory>>(
+final selectedCategoryNotifier = StateNotifierProvider.autoDispose<
+    SelectedGoalCategoryNotifier, List<LifeGoalCategory>>(
   (ref) => SelectedGoalCategoryNotifier(),
 );
 
@@ -44,3 +45,8 @@ class SelectedGoalCategoryNotifier
     return state;
   }
 }
+
+final FutureProvider<List<LifeGoalCategory>> localLifeGoalDB =
+    FutureProvider<List<LifeGoalCategory>>((ref) async {
+  return await LifeGoalCategoryDBHelper().getLifeGoalCategories();
+});
