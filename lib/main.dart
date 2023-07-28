@@ -169,12 +169,16 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                     child: Container(
                       padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10.0),
+                        ),
                         border: Border.all(
                           color: Colors.red,
                           width: 2,
                         ),
                       ),
                       child: _chipList(),
+                    ),
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
