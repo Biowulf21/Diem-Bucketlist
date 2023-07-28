@@ -26,7 +26,13 @@ class ListPageState extends ConsumerState<ListPage> {
     });
 
     return ListView(
-      children: lifeGoals ?? [const Text("No Life Goals Yet")],
+      children: lifeGoals.isNotEmpty
+          ? lifeGoals
+          : [
+              const Center(
+                child: Text("No Life Goals Yet"),
+              ),
+            ],
     );
   }
 }
