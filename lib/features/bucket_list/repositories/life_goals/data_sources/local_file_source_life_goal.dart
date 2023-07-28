@@ -29,6 +29,7 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       isCompleted BOOLEAN NOT NULL,
+      dateCreated TIMESTAMP NOT NULL,
       isDeleted BOOLEAN NULL,
       dateDeleted TIMESTAMP NULL,
       location VARCHAR(255) NULL,
@@ -40,7 +41,8 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
     await db.execute('''
     CREATE TABLE for_synch(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      life_goal_id FOREIGN KEY (life_goal_id) REFERENCES life_goals(id),
+      life_goal_id INTEGER, -- Define the column first
+      FOREIGN KEY (life_goal_id) REFERENCES life_goals(id) 
     )
     ''');
   }
@@ -49,18 +51,26 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
   @override
   Future<List<LifeGoal>> getLifeGoals() async {
     Database db = await database;
-    var lifeGoals = await db.query('life_goals', orderBy: 'date_created');
-    List<LifeGoal> lifeGoalList = lifeGoals.isNotEmpty
-        ? lifeGoals.map((e) => LifeGoal.fromJson(e)).toList()
-        : [];
-    return lifeGoalList;
+    var isTableEmpty = Sqflite.firstIntValue(
+            await db.rawQuery("SELECT COUNT(*) FROM life_goals")) ==
+        0;
+
+    var lifeGoals = await db.query('life_goals');
+
+    if (!isTableEmpty) {
+      lifeGoals = await db.query('life_goals', orderBy: 'dateCreated');
+      List<LifeGoal> lifeGoallist =
+          lifeGoals.map((e) => LifeGoal.fromJson(e)).toList();
+      return lifeGoallist;
+    }
+    return [];
   }
 
   @override
   Future<List<LifeGoal>> getDeletedLifeGoals() async {
     Database db = await database;
     var getDeletedLifeGoals = await db.rawQuery('''
-      SELECT * FROM life_goals WHERE isDeleted = 1 ORDER BY date_created
+      SELECT * FROM life_goals WHERE isDeleted = 1 ORDER BY dateCreated
       ''');
     List<LifeGoal> deletedLifeGoals = getDeletedLifeGoals.isNotEmpty
         ? getDeletedLifeGoals.map((e) => LifeGoal.fromJson(e)).toList()
