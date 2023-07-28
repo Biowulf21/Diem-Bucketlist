@@ -1,7 +1,7 @@
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
-import 'package:diem/features/bucket_list/repositories/life_goals/data_sources/firebase_datasource_life_item.dart';
-import 'package:diem/features/bucket_list/repositories/life_goals/data_sources/local_file_source_life_goal.dart';
 import 'package:diem/features/bucket_list/repositories/life_goals/life_goal_repository.dart';
+import 'package:diem/utils/database/life_goals/firebase_datasource_life_item.dart';
+import 'package:diem/utils/database/life_goals/local_file_source_life_goal.dart';
 
 class LifeGoalImplRepository implements LifeGoalRepository {
   @override
