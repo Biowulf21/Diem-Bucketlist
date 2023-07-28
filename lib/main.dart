@@ -174,6 +174,8 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                   ),
                   TextFormField(
                     maxLength: 300,
+                    maxLines: 6,
+                    minLines: 1,
                     decoration: const InputDecoration(
                         label: Text("Notes"), hintMaxLines: 4),
                   ),
