@@ -166,7 +166,15 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: _chipList(),
+                    child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                      child: _chipList(),
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
