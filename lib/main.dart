@@ -68,6 +68,7 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class MyHomePageState extends ConsumerState<MyHomePage> {
+  String update = 'Oya Update Jhoor';
   int _currentNavBarIndex = 0;
 
   final bottomNavBarItems = <BottomNavigationBarItem>[
@@ -107,107 +108,135 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
           child: _mainMenuItem.elementAt(_currentNavBarIndex),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _newLifeGoalModal(context, lifeGoalCategories),
+          onPressed: () => _showBottomSheet(lifeGoalCategories),
           child: const Icon(Icons.add),
         ),
       );
     });
   }
 
-  void _newLifeGoalModal(
-      BuildContext context, List<LifeGoalCategory> lifeGoalCategories) async {
+  void _showBottomSheet(List<LifeGoalCategory> lifeGoalCategories) {
     TextEditingController titleController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+    showModalBottomSheet(
+        context: context,
+        showDragHandle: true,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, state) {
+            return SizedBox(
+              height: 500,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: formKey,
+                    child: ListView(children: [
+                      TextFormField(
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                          label: Text("Title"),
+                        ),
+                        validator: (value) {
+                          String? validationResult =
+                              InputValidator(input: value)
+                                  .isRequired()
+                                  .maxLength(maxLength: 20)
+                                  .validate();
+
+                          return validationResult;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            label: Text("Description"), hintMaxLines: 4),
+                        validator: (value) {
+                          String? result = InputValidator(input: value)
+                              .isRequired()
+                              .maxLength(maxLength: 250)
+                              .validate();
+
+                          return result;
+                        },
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                        child: Text("Categories"),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: lifeGoalCategories.isEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.all(15.0),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.red),
+                                  ),
+                                  child: _chipList(),
+                                )
+                              : _chipList()),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      //   child: Container(
+                      //     padding: const EdgeInsets.all(15),
+                      //     decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //         color: Colors.red,
+                      //         width: 2,
+                      //       ),
+                      //     ),
+                      //     child: _chipList(),
+                      //   ),
+
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            label: Text("Location"), hintMaxLines: 4),
+                      ),
+                      TextFormField(
+                        maxLength: 300,
+                        maxLines: 6,
+                        minLines: 1,
+                        decoration: const InputDecoration(
+                            label: Text("Notes"), hintMaxLines: 4),
+                      ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            label: Text("Image"), hintMaxLines: 4),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              formKey.currentState!.validate();
+                            },
+                            child: const Text("CREATE NEW LIFE GOAL")),
+                      ),
+                    ]),
+                  ),
+                ),
+              ),
+            );
+          });
+        });
+  }
+
+  Future<Null> updated(StateSetter updateState) async {
+    updateState(() {
+      update = 'Update Leekan si';
+    });
+  }
+
+  void _newLifeGoalModal(
+      BuildContext context, List<LifeGoalCategory> lifeGoalCategories) async {
     await showModalBottomSheet(
       showDragHandle: true,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return SizedBox(
-          height: 500,
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Form(
-                key: formKey,
-                child: ListView(children: [
-                  TextFormField(
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      label: Text("Title"),
-                    ),
-                    validator: (value) {
-                      String? validationResult = InputValidator(input: value)
-                          .isRequired()
-                          .maxLength(maxLength: 20)
-                          .validate();
-
-                      return validationResult;
-                    },
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text("Description"), hintMaxLines: 4),
-                    validator: (value) {
-                      String? result = InputValidator(input: value)
-                          .isRequired()
-                          .maxLength(maxLength: 250)
-                          .validate();
-
-                      return result;
-                    },
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Text("Categories"),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                        border: Border.all(
-                          color: Colors.red,
-                          width: 2,
-                        ),
-                      ),
-                      child: _chipList(),
-                    ),
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text("Location"), hintMaxLines: 4),
-                  ),
-                  TextFormField(
-                    maxLength: 300,
-                    maxLines: 6,
-                    minLines: 1,
-                    decoration: const InputDecoration(
-                        label: Text("Notes"), hintMaxLines: 4),
-                  ),
-                  TextFormField(
-                    decoration: const InputDecoration(
-                        label: Text("Image"), hintMaxLines: 4),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          formKey.currentState!.validate();
-                        },
-                        child: const Text("CREATE NEW LIFE GOAL")),
-                  )
-                ]),
-              ),
-            ),
-          ),
-        );
+        return SizedBox(height: 500, child: Text("yawa"));
       },
     ).whenComplete(
       () =>
