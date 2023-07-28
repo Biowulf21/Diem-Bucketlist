@@ -15,11 +15,18 @@ class ListPageState extends ConsumerState<ListPage> {
   @override
   Widget build(BuildContext context) {
     final counter = ref.watch(lifeGoalListProvider);
-    List<LifeGoalWidget> lifeGoals =
-        counter.map((goal) => LifeGoalWidget(item: goal)).toList();
+    List<Widget> lifeGoals = counter.when(loading: () {
+      return [const Text("Loading")];
+    }, error: (err, stack) {
+      return [Text("An error has occured: $err")];
+    }, data: (data) {
+      var lifeGoalWidgetList =
+          data.map((e) => LifeGoalWidget(item: e)).toList();
+      return lifeGoalWidgetList;
+    });
 
     return ListView(
-      children: lifeGoals,
+      children: lifeGoals ?? [const Text("No Life Goals Yet")],
     );
   }
 }
