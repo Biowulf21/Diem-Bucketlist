@@ -26,7 +26,6 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
   FutureOr<void> _onCreateDb(Database db, int version) async {
     await _createLifeGoalTable(db);
     await _createForSynchTable(db);
-    await _createCategoriesTable(db);
   }
 
   Future<void> _createLifeGoalTable(Database db) async {
@@ -55,37 +54,6 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
       FOREIGN KEY (life_goal_id) REFERENCES life_goals(id) 
     )
     ''');
-  }
-
-  Future<void> _createCategoriesTable(Database db) async {
-    await db.execute('''
-    CREATE TABLE life_goal_categories(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      firebaseID VARCHAR(20) NOT NULL,
-      label VARCHAR(20) NOT NULL,
-    )
-    ''');
-
-    List<String> defaultCategories = [
-      'family',
-      'travel',
-      'health',
-      'finance',
-      'personal',
-      'career',
-      'education',
-      'creative',
-      'relationship',
-    ];
-
-    for (final category in defaultCategories) {
-      var value = {
-        'firebaseID': FirebaseDocIDGenerator.generateRandomString(),
-        'label': category
-      };
-
-      await db.insert('life_goal_categories', value);
-    }
   }
 
   // CRUD OPERATIONS
