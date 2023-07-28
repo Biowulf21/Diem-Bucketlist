@@ -5,8 +5,6 @@ import 'package:diem/features/bucket_list/repositories/life_goals/data_sources/a
 class FirebaseDataSourceLifeGoal implements AbstractDataSource {
   FirebaseFirestore instance = FirebaseFirestore.instance;
 
-  Future<void> fetchLifeItems() async {}
-
   @override
   Future<int> addLifeGoal(LifeGoal lifeGoal) {
     // TODO: implement addLifeGoal
