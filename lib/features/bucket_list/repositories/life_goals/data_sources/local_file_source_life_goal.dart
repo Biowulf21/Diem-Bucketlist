@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/repositories/life_goals/data_sources/abstract_data_source.dart';
+import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -23,9 +24,16 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
   }
 
   FutureOr<void> _onCreateDb(Database db, int version) async {
+    await _createLifeGoalTable(db);
+    await _createForSynchTable(db);
+    await _createCategoriesTable(db);
+  }
+
+  Future<void> _createLifeGoalTable(Database db) async {
     await db.execute('''
     CREATE TABLE life_goals(
       id INTEGER PRIMARY KEY,
+      firebaseID VARCHAR(20) NOT NULL,
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       isCompleted BOOLEAN NOT NULL,
@@ -37,7 +45,9 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
       image VARCHAR(255) NULL
     )
     ''');
+  }
 
+  Future<void> _createForSynchTable(Database db) async {
     await db.execute('''
     CREATE TABLE for_synch(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,6 +55,37 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
       FOREIGN KEY (life_goal_id) REFERENCES life_goals(id) 
     )
     ''');
+  }
+
+  Future<void> _createCategoriesTable(Database db) async {
+    await db.execute('''
+    CREATE TABLE life_goal_categories(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      firebaseID VARCHAR(20) NOT NULL,
+      label VARCHAR(20) NOT NULL,
+    )
+    ''');
+
+    List<String> defaultCategories = [
+      'family',
+      'travel',
+      'health',
+      'finance',
+      'personal',
+      'career',
+      'education',
+      'creative',
+      'relationship',
+    ];
+
+    for (final category in defaultCategories) {
+      var value = {
+        'firebaseID': FirebaseDocIDGenerator.generateRandomString(),
+        'label': category
+      };
+
+      await db.insert('life_goal_categories', value);
+    }
   }
 
   // CRUD OPERATIONS
