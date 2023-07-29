@@ -16,7 +16,7 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
   // CRUD OPERATIONS
   @override
   Future<List<LifeGoal>> getLifeGoals() async {
-    Database db = await database;
+    Database db = instance;
     var isTableEmpty = Sqflite.firstIntValue(
             await db.rawQuery("SELECT COUNT(*) FROM life_goals")) ==
         0;
@@ -34,7 +34,7 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
 
   @override
   Future<List<LifeGoal>> getDeletedLifeGoals() async {
-    Database db = await database;
+    Database db = instance;
     var getDeletedLifeGoals = await db.rawQuery('''
       SELECT * FROM life_goals WHERE isDeleted = 1 ORDER BY dateCreated
       ''');
@@ -47,26 +47,26 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
 
   @override
   Future<int> addLifeGoal(LifeGoal lifeGoal) async {
-    Database db = await database;
+    Database db = instance;
     return await db.insert('life_goals', lifeGoal.toJson());
   }
 
   @override
   Future<int> removeLifeGoal(String id) async {
-    Database db = await database;
+    Database db = instance;
     return await db.delete('life_goals', where: 'id = ?', whereArgs: [id]);
   }
 
   @override
   Future<int> updateLifeGoal(LifeGoal lifeGoal) async {
-    Database db = await database;
+    Database db = instance;
     return await db.update('life_goals', lifeGoal.toJson(),
         where: 'id = ?', whereArgs: [lifeGoal.id]);
   }
 
   @override
   Future<LifeGoal> getLifeGoal(String id) async {
-    Database db = await database;
+    Database db = instance;
     var lifeGoalFromDB =
         await db.query('life_goal', where: 'id = ?', whereArgs: [id]);
     LifeGoal lifeGoal = LifeGoal.fromJson(lifeGoalFromDB.first);
