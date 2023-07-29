@@ -25,20 +25,15 @@ class CustomChipState extends ConsumerState<CustomChip> {
       onTap: () {
         setState(() {
           isSelected = !isSelected;
+
+          if (isSelected) {
+            widget.selectedCategories.add(widget.category);
+          } else {
+            widget.selectedCategories.remove(widget.category);
+          }
         });
-        if (isSelected) {
-          // ref.read(selectedCategoryNotifier.notifier).addSelectedCategory(
-          //     LifeGoalCategory(label: widget.label, id: widget.label));
-        } else {
-          // ref
-          // .read(selectedCategoryNotifier.notifier)
-          // .removeFromSelectedCategory(
-          //     LifeGoalCategory(label: widget.label, id: widget.label));
-        }
-        // print(ref
-        //     .read(selectedCategoryNotifier.notifier)
-        //     .getSelectedCategories()
-        //     .map((e) => e.getLabel));
+
+        print(widget.selectedCategories);
       },
       child: Chip(
         avatar: isSelected

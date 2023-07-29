@@ -156,10 +156,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                   child: Form(
                     key: formKey,
                     child: ListView(children: [
-                      // Text(selectedCategories
-                      //     .map((element) => element.getLabel.toString())
-                      //     .join(", ")),
-                      //
                       TextFormField(
                         controller: titleController,
                         decoration: const InputDecoration(
