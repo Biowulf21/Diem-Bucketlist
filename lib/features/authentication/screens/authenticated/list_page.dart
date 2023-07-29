@@ -1,6 +1,6 @@
 import 'package:diem/features/authentication/repositories/auth.dart';
 import 'package:diem/features/bucket_list/providers/bucketlist_item_providers.dart';
-import 'package:diem/features/bucket_list/repositories/life_goals/widgets/life_goal_widget.dart';
+import 'package:diem/features/bucket_list/widgets/life_goal_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
