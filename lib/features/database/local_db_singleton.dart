@@ -22,14 +22,11 @@ class LocalDBSingleton {
     return await openDatabase(path, version: 1, onCreate: _onCreateDb);
   }
 
-  Future<void> createDB() async {
-    await _initDB('main.db');
-  }
-
   Future<void> _onCreateDb(Database db, int version) async {
-    await _createLifeGoalTable(db);
     await _createLifeGoalCategoriesTable(db);
+    await _createLifeGoalTable(db);
     await _createForSynchTable(db);
+
   }
 
   _createLifeGoalTable(Database db) async {
@@ -74,7 +71,8 @@ class LocalDBSingleton {
     for (final category in defaultCategories) {
       var value = {
         'firebaseID': FirebaseDocIDGenerator.generateRandomString(),
-        'label': category
+        'label': category,
+        'dateCreated': DateTime.now().toUtc()
       };
       await db.insert('life_goal_categories', value);
     }
