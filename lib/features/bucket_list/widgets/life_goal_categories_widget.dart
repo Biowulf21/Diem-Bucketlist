@@ -40,8 +40,9 @@ class _LifeGoalCategoriesWidgetState extends State<LifeGoalCategoriesWidget> {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
-            List<CustomChip> customChipList =
-                snapshot.data!.map((e) => CustomChip(label: e.label)).toList();
+            List<CustomChip> customChipList = snapshot.data!.map((e) {
+              return CustomChip(label: e.label);
+            }).toList();
             return Wrap(
               children: customChipList,
             );
