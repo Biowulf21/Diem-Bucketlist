@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
-import 'package:diem/utils/database/life_goals/abstract_data_source.dart';
+import 'package:diem/features/database/abstract/abstract_data_source.dart';
 
 class FirebaseDataSourceLifeGoal implements AbstractDataSource {
   FirebaseFirestore instance = FirebaseFirestore.instance;

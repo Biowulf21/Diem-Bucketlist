@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
-import 'package:diem/utils/database/life_goals/abstract_data_source.dart';
 import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';

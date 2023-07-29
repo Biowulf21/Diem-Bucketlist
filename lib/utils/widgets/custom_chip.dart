@@ -23,18 +23,18 @@ class CustomChipState extends ConsumerState<CustomChip> {
           isSelected = !isSelected;
         });
         if (isSelected) {
-          ref.read(selectedCategoryNotifier.notifier).addSelectedCategory(
-              LifeGoalCategory(label: widget.label, id: widget.label));
+          // ref.read(selectedCategoryNotifier.notifier).addSelectedCategory(
+          //     LifeGoalCategory(label: widget.label, id: widget.label));
         } else {
-          ref
-              .read(selectedCategoryNotifier.notifier)
-              .removeFromSelectedCategory(
-                  LifeGoalCategory(label: widget.label, id: widget.label));
+          // ref
+          // .read(selectedCategoryNotifier.notifier)
+          // .removeFromSelectedCategory(
+          //     LifeGoalCategory(label: widget.label, id: widget.label));
         }
-        print(ref
-            .read(selectedCategoryNotifier.notifier)
-            .getSelectedCategories()
-            .map((e) => e.getLabel));
+        // print(ref
+        //     .read(selectedCategoryNotifier.notifier)
+        //     .getSelectedCategories()
+        //     .map((e) => e.getLabel));
       },
       child: Chip(
         avatar: isSelected
