@@ -191,16 +191,8 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                         padding: EdgeInsets.only(top: 10.0),
                         child: Text("Categories"),
                       ),
-                      Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: Container(
-                            padding: const EdgeInsets.all(15.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red),
-                            ),
-                            child: LifeGoalCategoriesWidget(
-                                selectedCategories: selectedCategories),
-                          )),
+                      LifeGoalCategoriesWidget(
+                          selectedCategories: selectedCategories),
 
                       // Padding(
                       //   padding: const EdgeInsets.symmetric(vertical: 10.0),
