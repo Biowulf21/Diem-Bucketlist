@@ -22,7 +22,11 @@ class LocalDBSingleton {
     return await openDatabase(path, version: 1, onCreate: _onCreateDb);
   }
 
-  FutureOr<void> _onCreateDb(Database db, int version) async {
+  Future<void> createDB() async {
+    await _initDB('main.db');
+  }
+
+  Future<void> _onCreateDb(Database db, int version) async {
     await _createLifeGoalTable(db);
     await _createLifeGoalCategoriesTable(db);
     await _createForSynchTable(db);
