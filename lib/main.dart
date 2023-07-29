@@ -8,6 +8,8 @@ import 'package:diem/features/authentication/screens/authenticated/people_page.d
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/providers/life_goal_category_provider.dart';
+import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
+import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:diem/utils/input_validator.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
@@ -15,6 +17,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sqflite/sqlite_api.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -129,9 +132,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
   void _showBottomSheet() {
     TextEditingController titleController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final selectedCategories = ref.watch(selectedCategoryNotifier);
-    final bool hasCategoriesSelected =
-        selectedCategories.isEmpty ? false : true;
 
     showModalBottomSheet(
         context: context,
@@ -149,10 +149,10 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                   child: Form(
                     key: formKey,
                     child: ListView(children: [
-                      Text(selectedCategories
-                          .map((element) => element.getLabel.toString())
-                          .join(", ")),
-
+                      // Text(selectedCategories
+                      //     .map((element) => element.getLabel.toString())
+                      //     .join(", ")),
+                      //
                       TextFormField(
                         controller: titleController,
                         decoration: const InputDecoration(
@@ -186,15 +186,13 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                       ),
                       Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: hasCategoriesSelected == false
-                              ? Container(
-                                  padding: const EdgeInsets.all(15.0),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.red),
-                                  ),
-                                  child: _chipList(),
-                                )
-                              : _chipList()),
+                          child: Container(
+                            padding: const EdgeInsets.all(15.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.red),
+                            ),
+                            child: LifeGoalCategoriesWidget(),
+                          )),
 
                       // Padding(
                       //   padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -262,31 +260,59 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
   //   );
   // }
 
-  _chipList() {
-    final List<String> _defaultGoalCategoryNames =
-        ref.watch(defaultGoalCategoryProvider);
+  _chipList() async {
+    // final List<String> _defaultGoalCategoryNames =
+    //     ref.watch(defaultGoalCategoryProvider);
+    //
+    // Map<int, String> _defaultGoalCategoryNamesMap =
+    //     _defaultGoalCategoryNames.asMap();
+    //
+    // List<CustomChip> _defaultGoalCategories = _defaultGoalCategoryNamesMap
+    //     .map((key, value) =>
+    //         MapEntry(key, LifeGoalCategory(id: key.toString(), label: value)))
+    //     .values
+    //     .toList()
+    //     .map((cateogry) => CustomChip(label: cateogry.label))
+    //     .toList();
+    //
+    // final AsyncValue<List<LifeGoalCategory>> localLifeGoalCategories =
+    //     ref.watch(localLifeGoalCategoryProvider);
+    //
+    // ElevatedButton addCategory = ElevatedButton(
+    //   onPressed: () {},
+    //   child: const Icon(Icons.add),
+    // );
+    //
+    // return localLifeGoalCategories.when(
+    //     data: (data) {
+    //       List<CustomChip> _defaultGoalCategories = data
+    //           .map((category) => CustomChip(label: category.label))
+    //           .toList();
+    //
+    //       return Container(
+    //         child: Wrap(
+    //           children: [..._defaultGoalCategories, addCategory],
+    //           spacing: 6.0,
+    //           runSpacing: 6.0,
+    //         ),
+    //       );
+    //     },
+    //     error: (err, stack) => Center(
+    //           child: Text(err.toString()),
+    //         ),
+    //     loading: () => CircularProgressIndicator());
 
-    Map<int, String> _defaultGoalCategoryNamesMap =
-        _defaultGoalCategoryNames.asMap();
+    Database db = await LocalDBSingleton().database;
 
-    List<CustomChip> _defaultGoalCategories = _defaultGoalCategoryNamesMap
-        .map((key, value) =>
-            MapEntry(key, LifeGoalCategory(id: key.toString(), label: value)))
-        .values
-        .toList()
-        .map((cateogry) => CustomChip(label: cateogry.label))
-        .toList();
+    List<LifeGoalCategory> categories =
+        await LifeGoalCategoryDBHelper(instance: db).getLifeGoalCategories();
 
-    ElevatedButton addCategory = ElevatedButton(
-      onPressed: () {},
-      child: const Icon(Icons.add),
-    );
+    List<CustomChip> customChipList =
+        categories.map((e) => CustomChip(label: e.label)).toList();
 
     return Container(
       child: Wrap(
-        children: [..._defaultGoalCategories, addCategory],
-        spacing: 6.0,
-        runSpacing: 6.0,
+        children: customChipList,
       ),
     );
   }
