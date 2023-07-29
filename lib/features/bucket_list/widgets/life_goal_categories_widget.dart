@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class LifeGoalCategoriesWidget extends StatefulWidget {
-  LifeGoalCategoriesWidget({super.key});
+  List<LifeGoalCategory> selectedCategories = [];
+  LifeGoalCategoriesWidget({super.key, required this.selectedCategories});
 
   @override
   State<LifeGoalCategoriesWidget> createState() =>
@@ -30,6 +31,8 @@ class _LifeGoalCategoriesWidgetState extends State<LifeGoalCategoriesWidget> {
     return categories;
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<LifeGoalCategory>>(
@@ -40,8 +43,8 @@ class _LifeGoalCategoriesWidgetState extends State<LifeGoalCategoriesWidget> {
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
-            List<CustomChip> customChipList = snapshot.data!.map((e) {
-              return CustomChip(label: e.label);
+            List<CustomChip> customChipList = snapshot.data!.map((category) {
+              return CustomChip(category: category, selectedCategories: widget.selectedCategories ,);
             }).toList();
             return Wrap(
               children: customChipList,

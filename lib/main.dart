@@ -105,6 +105,8 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
     const PeoplePage()
   ];
 
+  List<LifeGoalCategory> selectedCategories = [];
+
   @override
   Widget build(BuildContext context) {
     void onTapBottomNavBarItem(int index) {
@@ -197,7 +199,8 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.red),
                             ),
-                            child: LifeGoalCategoriesWidget(),
+                            child: LifeGoalCategoriesWidget(
+                                selectedCategories: selectedCategories),
                           )),
 
                       // Padding(
@@ -245,81 +248,21 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
         });
   }
 
-  // Future<Null> updated(StateSetter updateState) async {
-  //   updateState(() {
-  //     update = 'Update Leekan si';
-  //   });
-  // }
-  //
-  // void _newLifeGoalModal(
-  //     BuildContext context, List<LifeGoalCategory> lifeGoalCategories) async {
-  //   await showModalBottomSheet(
-  //     showDragHandle: true,
-  //     isScrollControlled: true,
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return SizedBox(height: 500, child: Text("yawa"));
-  //     },
-  //   ).whenComplete(
-  //     () =>
-  //         ref.read(selectedCategoryNotifier.notifier).clearSelectedCategories(),
-  //   );
-  // }
-
   _chipList() async {
-    // final List<String> _defaultGoalCategoryNames =
-    //     ref.watch(defaultGoalCategoryProvider);
-    //
-    // Map<int, String> _defaultGoalCategoryNamesMap =
-    //     _defaultGoalCategoryNames.asMap();
-    //
-    // List<CustomChip> _defaultGoalCategories = _defaultGoalCategoryNamesMap
-    //     .map((key, value) =>
-    //         MapEntry(key, LifeGoalCategory(id: key.toString(), label: value)))
-    //     .values
-    //     .toList()
-    //     .map((cateogry) => CustomChip(label: cateogry.label))
-    //     .toList();
-    //
-    // final AsyncValue<List<LifeGoalCategory>> localLifeGoalCategories =
-    //     ref.watch(localLifeGoalCategoryProvider);
-    //
-    // ElevatedButton addCategory = ElevatedButton(
-    //   onPressed: () {},
-    //   child: const Icon(Icons.add),
-    // );
-    //
-    // return localLifeGoalCategories.when(
-    //     data: (data) {
-    //       List<CustomChip> _defaultGoalCategories = data
-    //           .map((category) => CustomChip(label: category.label))
-    //           .toList();
-    //
-    //       return Container(
-    //         child: Wrap(
-    //           children: [..._defaultGoalCategories, addCategory],
-    //           spacing: 6.0,
-    //           runSpacing: 6.0,
-    //         ),
-    //       );
-    //     },
-    //     error: (err, stack) => Center(
-    //           child: Text(err.toString()),
-    //         ),
-    //     loading: () => CircularProgressIndicator());
-
     Database db = await LocalDBSingleton().database;
 
     List<LifeGoalCategory> categories =
         await LifeGoalCategoryDBHelper(instance: db).getLifeGoalCategories();
 
-    List<CustomChip> customChipList =
-        categories.map((e) => CustomChip(label: e.label)).toList();
+    List<CustomChip> customChipList = categories
+        .map((e) => CustomChip(
+              category: e,
+              selectedCategories: selectedCategories,
+            ))
+        .toList();
 
-    return Container(
-      child: Wrap(
-        children: customChipList,
-      ),
+    return Wrap(
+      children: customChipList,
     );
   }
 }

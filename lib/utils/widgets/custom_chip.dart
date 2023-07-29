@@ -1,3 +1,4 @@
+import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/providers/life_goal_category_provider.dart';
 import 'package:flutter/foundation.dart';
@@ -5,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomChip extends ConsumerStatefulWidget {
-  CustomChip({super.key, required this.label}) : super();
+  CustomChip(
+      {super.key, required this.category, required this.selectedCategories})
+      : super();
 
-  final String label;
+  LifeGoalCategory category;
+  List<LifeGoalCategory> selectedCategories;
 
   @override
   CustomChipState createState() => CustomChipState();
@@ -50,7 +54,7 @@ class CustomChipState extends ConsumerState<CustomChip> {
             ? BorderSide(color: Theme.of(context).colorScheme.primary)
             : const BorderSide(color: Colors.grey),
         labelPadding: const EdgeInsets.all(2.0),
-        label: Text(widget.label),
+        label: Text(widget.category.label),
         elevation: 6.0,
         backgroundColor: isSelected == true
             ? Theme.of(context).colorScheme.inversePrimary
