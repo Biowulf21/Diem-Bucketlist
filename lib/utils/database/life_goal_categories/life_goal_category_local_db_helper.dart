@@ -17,14 +17,14 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
 
   @override
   Future<int> deleteLifeGoalCategory(String id) async {
-    Database db = await instance;
+    Database db = instance;
     return await db
         .delete('life_goal_categories', where: 'id = ?', whereArgs: [id]);
   }
 
   @override
   Future<List<LifeGoalCategory>> getLifeGoalCategories() async {
-    Database db = await instance;
+    Database db = instance;
     var isTableEmpty = Sqflite.firstIntValue(
             await db.rawQuery("SELECT COUNT(*) FROM life_goal_categories")) ==
         0;
@@ -42,7 +42,7 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
 
   @override
   Future<int> updateLifeGoalCategory(LifeGoalCategory category) async {
-    Database db = await instance;
+    Database db = instance;
 
     return await db.update('life_goals', category.toJson(),
         where: 'id = ?', whereArgs: [category.id]);
@@ -50,7 +50,7 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
 
   @override
   Future<int> createLifeGoalCategory(LifeGoalCategory category) async {
-    Database db = await instance;
+    Database db = instance;
     return await db.insert('life_goal_categories', category.toJson());
   }
 }
