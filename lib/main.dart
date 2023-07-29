@@ -81,7 +81,13 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   void getDatabaseInstance() async {
-    var database = await LocalDBSingleton().createDB();
+    var database = await LocalDBSingleton().database;
+    var tableNames = (await database
+            .query('sqlite_master', where: 'type = ?', whereArgs: ['table']))
+        .map((row) => row['name'] as String)
+        .toList(growable: false);
+
+    print(tableNames);
   }
 
   String update = 'Oya Update Jhoor';
