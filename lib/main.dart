@@ -7,7 +7,6 @@ import 'package:diem/features/authentication/screens/authenticated/map_page.dart
 import 'package:diem/features/authentication/screens/authenticated/people_page.dart';
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
-import 'package:diem/features/bucket_list/providers/life_goal_category_provider.dart';
 import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
 import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';

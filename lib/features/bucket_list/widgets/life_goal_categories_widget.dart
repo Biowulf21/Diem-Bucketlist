@@ -2,7 +2,6 @@ import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_ca
 import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
@@ -31,8 +30,6 @@ class _LifeGoalCategoriesWidgetState extends State<LifeGoalCategoriesWidget> {
     return categories;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<LifeGoalCategory>>(
@@ -44,7 +41,10 @@ class _LifeGoalCategoriesWidgetState extends State<LifeGoalCategoriesWidget> {
             return Text('Error: ${snapshot.error}');
           } else {
             List<CustomChip> customChipList = snapshot.data!.map((category) {
-              return CustomChip(category: category, selectedCategories: widget.selectedCategories ,);
+              return CustomChip(
+                category: category,
+                selectedCategories: widget.selectedCategories,
+              );
             }).toList();
             return Wrap(
               children: customChipList,
