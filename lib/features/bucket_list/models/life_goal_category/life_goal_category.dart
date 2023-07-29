@@ -14,10 +14,10 @@ class LifeGoalCategory {
   factory LifeGoalCategory.fromJson(Map<String, dynamic> json) =>
       LifeGoalCategory(
         label: json['label'],
-        id: json['id'],
+        id: json['id'].toString(),
         description: json['description'],
       );
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'label': label, 'description': description};
+      {'id': int.parse(id), 'label': label, 'description': description};
 }
