@@ -11,65 +11,20 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
-  Database? _instance;
-  Future<Database> get database async {
-    if (_instance != null) return _instance!;
+  Database instance;
 
-    _instance = await _initDB('main.db');
-    return _instance!;
-  }
-
-  Future<Database> _initDB(String filePath) async {
-    Directory dbDirectory = await getApplicationSupportDirectory();
-    String path = join(dbDirectory.path, filePath);
-    return await openDatabase(path, version: 1, onCreate: _onCreateDb);
-  }
-
-  FutureOr<void> _onCreateDb(Database db, int version) async {
-    await _createCategoriesTable(db);
-  }
-
-  Future<void> _createCategoriesTable(Database db) async {
-    await db.execute('''
-    CREATE TABLE life_goal_categories(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      firebaseID VARCHAR(20) NOT NULL,
-      label VARCHAR(20) NOT NULL,
-    )
-    ''');
-
-    List<String> defaultCategories = [
-      'family',
-      'travel',
-      'health',
-      'finance',
-      'personal',
-      'career',
-      'education',
-      'creative',
-      'relationship',
-    ];
-
-    for (final category in defaultCategories) {
-      var value = {
-        'firebaseID': FirebaseDocIDGenerator.generateRandomString(),
-        'label': category
-      };
-
-      await db.insert('life_goal_categories', value);
-    }
-  }
+  LifeGoalCategoryDBHelper({required this.instance});
 
   @override
   Future<int> deleteLifeGoalCategory(String id) async {
-    Database db = await database;
+    Database db = await instance;
     return await db
         .delete('life_goal_categories', where: 'id = ?', whereArgs: [id]);
   }
 
   @override
   Future<List<LifeGoalCategory>> getLifeGoalCategories() async {
-    Database db = await database;
+    Database db = await instance;
     var isTableEmpty = Sqflite.firstIntValue(
             await db.rawQuery("SELECT COUNT(*) FROM life_goal_categories")) ==
         0;
@@ -87,7 +42,7 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
 
   @override
   Future<int> updateLifeGoalCategory(LifeGoalCategory category) async {
-    Database db = await database;
+    Database db = await instance;
 
     return await db.update('life_goals', category.toJson(),
         where: 'id = ?', whereArgs: [category.id]);
@@ -95,7 +50,7 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
 
   @override
   Future<int> createLifeGoalCategory(LifeGoalCategory category) async {
-    Database db = await database;
+    Database db = await instance;
     return await db.insert('life_goal_categories', category.toJson());
   }
 }
