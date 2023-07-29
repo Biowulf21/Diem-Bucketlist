@@ -48,7 +48,35 @@ class LocalDBSingleton {
     ''');
   }
 
-  _createLifeGoalCategoriesTable(Database db) {}
+  _createLifeGoalCategoriesTable(Database db) async {
+    await db.execute('''
+    CREATE TABLE life_goal_categories(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      firebaseID VARCHAR(20) NOT NULL,
+      label VARCHAR(20) NOT NULL,
+    )
+    ''');
+
+    List<String> defaultCategories = [
+      'family',
+      'travel',
+      'health',
+      'finance',
+      'personal',
+      'career',
+      'education',
+      'creative',
+      'relationship',
+    ];
+
+    for (final category in defaultCategories) {
+      var value = {
+        'firebaseID': FirebaseDocIDGenerator.generateRandomString(),
+        'label': category
+      };
+      await db.insert('life_goal_categories', value);
+    }
+  }
 
   _createForSynchTable(Database db) async {
     await db.execute('''
