@@ -9,52 +9,9 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
-  Database? _instance;
-  Future<Database> get database async {
-    if (_instance != null) return _instance!;
+  Database instance;
 
-    _instance = await _initDB('main.db');
-    return _instance!;
-  }
-
-  Future<Database> _initDB(String filePath) async {
-    Directory dbDirectory = await getApplicationSupportDirectory();
-    String path = join(dbDirectory.path, filePath);
-    return await openDatabase(path, version: 1, onCreate: _onCreateDb);
-  }
-
-  FutureOr<void> _onCreateDb(Database db, int version) async {
-    await _createLifeGoalTable(db);
-    await _createForSynchTable(db);
-  }
-
-  Future<void> _createLifeGoalTable(Database db) async {
-    await db.execute('''
-    CREATE TABLE life_goals(
-      id INTEGER PRIMARY KEY,
-      firebaseID VARCHAR(20) NOT NULL,
-      title TEXT NOT NULL,
-      description TEXT NOT NULL,
-      isCompleted BOOLEAN NOT NULL,
-      dateCreated TIMESTAMP NOT NULL,
-      isDeleted BOOLEAN NULL,
-      dateDeleted TIMESTAMP NULL,
-      location VARCHAR(255) NULL,
-      notes TEXT NULL,
-      image VARCHAR(255) NULL
-    )
-    ''');
-  }
-
-  Future<void> _createForSynchTable(Database db) async {
-    await db.execute('''
-    CREATE TABLE for_synch(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      life_goal_id INTEGER, -- Define the column first
-      FOREIGN KEY (life_goal_id) REFERENCES life_goals(id) 
-    )
-    ''');
-  }
+  LocalDataSourceLifeGoalImpl({required this.instance});
 
   // CRUD OPERATIONS
   @override
