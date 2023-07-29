@@ -8,6 +8,7 @@ import 'package:diem/features/authentication/screens/authenticated/people_page.d
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/providers/life_goal_category_provider.dart';
+import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:diem/utils/input_validator.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -68,6 +69,18 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class MyHomePageState extends ConsumerState<MyHomePage> {
+  @override
+  void initState() {
+    // TODO: create tables for life_goals, life_goal_category, and sync_queue
+    // TODO rename for_synch to sync_queue
+    super.initState();
+    getDatabaseInstance();
+  }
+
+  void getDatabaseInstance() async {
+    var database = await LocalDBSingleton().createDB();
+  }
+
   String update = 'Oya Update Jhoor';
   int _currentNavBarIndex = 0;
 
