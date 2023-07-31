@@ -31,7 +31,7 @@ class LocalDBSingleton {
   _createLifeGoalTable(Database db) async {
     await db.execute('''
     CREATE TABLE life_goals(
-      id INTEGER PRIMARY KEY,
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       firebaseID VARCHAR(20) NOT NULL,
       title TEXT NOT NULL,
       description TEXT NOT NULL,
