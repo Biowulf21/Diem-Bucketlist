@@ -7,12 +7,12 @@ class LifeGoalBuilder {
   String id;
   String description;
   bool isCompleted = false;
-  bool? isDeleted;
-  Timestamp? dateDeleted;
-  List<LifeGoalCategory>? categories;
-  String? location;
-  String? notes;
-  String? image;
+  bool? _isDeleted;
+  Timestamp? _dateDeleted;
+  List<LifeGoalCategory>? _categories;
+  String? _location;
+  String? _notes;
+  String? _image;
 
   LifeGoalBuilder(
       {required this.id,
@@ -21,22 +21,22 @@ class LifeGoalBuilder {
       required this.isCompleted});
 
   LifeGoalBuilder addCategories(List<LifeGoalCategory> categories) {
-    this.categories = categories;
+    this._categories = categories;
     return this;
   }
 
   LifeGoalBuilder addLocation(String location) {
-    this.location = location;
+    this._location = location;
     return this;
   }
 
   LifeGoalBuilder addNotes(String notes) {
-    this.notes = notes;
+    this._notes = notes;
     return this;
   }
 
   LifeGoalBuilder addImage(String image) {
-    this.image = image;
+    this._image = image;
     return this;
   }
 
