@@ -2,6 +2,7 @@ import 'package:diem/features/bucket_list/builders/life_goal_builder.dart';
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
+import 'package:diem/features/database/local/life_goal/local_file_source_life_goal.dart';
 import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:diem/utils/firebase_doc_id_generator.dart';
@@ -14,12 +15,14 @@ import 'package:sqflite/sqlite_api.dart';
 class NewLifeGoalBottomSheet extends StatefulWidget {
   final TextEditingController titleController;
   final TextEditingController descriptionController;
+  final Database db;
 
   final GlobalKey<FormState> formKey;
   List<LifeGoalCategory> selectedCategories = [];
 
   NewLifeGoalBottomSheet(
       {super.key,
+      required this.db,
       required this.titleController,
       required this.descriptionController,
       required this.formKey});
@@ -107,7 +110,8 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
                               .addCategories(widget.selectedCategories)
                               .build();
 
-                          print(goal.categories.toString());
+                          LocalDataSourceLifeGoalImpl(instance: widget.db)
+                              .addLifeGoal(goal);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("Form is not valid")));

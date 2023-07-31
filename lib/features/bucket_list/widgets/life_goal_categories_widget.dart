@@ -28,6 +28,8 @@ class _LifeGoalCategoriesWidgetState extends State<LifeGoalCategoriesWidget> {
     List<LifeGoalCategory> categories =
         await LifeGoalCategoryDBHelper(instance: db).getLifeGoalCategories();
 
+    print(categories);
+
     return categories;
   }
 

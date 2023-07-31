@@ -72,6 +72,8 @@ class MyHomePage extends ConsumerStatefulWidget {
 }
 
 class MyHomePageState extends ConsumerState<MyHomePage> {
+  late Database database;
+
   @override
   void initState() {
     // TODO: create tables for life_goals, life_goal_category, and sync_queue
@@ -81,7 +83,7 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
   }
 
   void getDatabaseInstance() async {
-    var database = await LocalDBSingleton().database;
+    database = await LocalDBSingleton().database;
     var tableNames = (await database
             .query('sqlite_master', where: 'type = ?', whereArgs: ['table']))
         .map((row) => row['name'] as String)
@@ -149,6 +151,7 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
             formKey: formKey,
             titleController: titleController,
             descriptionController: descriptionController,
+            db: database,
           );
         });
   }
