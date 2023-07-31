@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:diem/utils/firebase_doc_id_generator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -26,6 +27,7 @@ class LocalDBSingleton {
     await _createLifeGoalCategoriesTable(db);
     await _createLifeGoalTable(db);
     await _createForSynchTable(db);
+    _createLifeGoalCategoryRelationship(db);
   }
 
   _createLifeGoalTable(Database db) async {
@@ -78,6 +80,16 @@ class LocalDBSingleton {
 
   _createLifeGoalCategoryRelationship(Database db) async {
     await db.execute('''
+      CREATE TABLE IF NOT EXISTS life_goal_category_relationship (
+      goal_id INTEGER,
+      category_id INTEGER,
+      FOREIGN KEY (goal_id) REFERENCES life_goal (goal_id),
+      FOREIGN KEY (category_id) REFERENCES life_goal_category (category_id),
+      PRIMARY KEY (goal_id, category_id)
+);
+  ''');
+  }
+
   _createForSynchTable(Database db) async {
     await db.execute('''
     CREATE TABLE IF NOT EXISTS for_synch(
