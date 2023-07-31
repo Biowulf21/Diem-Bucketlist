@@ -137,6 +137,7 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
 
   void _showBottomSheet() {
     TextEditingController titleController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     showModalBottomSheet(
@@ -147,6 +148,7 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
           return NewLifeGoalBottomSheet(
             formKey: formKey,
             titleController: titleController,
+            descriptionController: descriptionController,
           );
         });
   }
