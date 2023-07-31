@@ -1,3 +1,4 @@
+// ignore: unused_import
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category_relationship/life_goal_relationship_category.dart';
 import 'package:diem/features/database/abstract/abstract_life_goal_category_relationship.dart';

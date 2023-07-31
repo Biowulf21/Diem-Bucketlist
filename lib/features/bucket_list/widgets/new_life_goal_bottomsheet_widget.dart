@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:diem/features/bucket_list/builders/life_goal_builder.dart';
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
@@ -12,6 +10,7 @@ import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
+// ignore: must_be_immutable
 class NewLifeGoalBottomSheet extends StatefulWidget {
   final TextEditingController titleController;
   final TextEditingController descriptionController;
@@ -30,14 +29,6 @@ class NewLifeGoalBottomSheet extends StatefulWidget {
 }
 
 class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    widget.descriptionController.dispose();
-    widget.titleController.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(builder: (context, state) {
@@ -130,6 +121,14 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
         ),
       );
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.descriptionController.dispose();
+    widget.titleController.dispose();
   }
 
   _chipList() async {
