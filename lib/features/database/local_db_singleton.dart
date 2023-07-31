@@ -37,9 +37,9 @@ class LocalDBSingleton {
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       isCompleted BOOLEAN NOT NULL,
-      dateCreated TIMESTAMP NOT NULL,
+      dateCreated INT NOT NULL,
       isDeleted BOOLEAN NULL,
-      dateDeleted TIMESTAMP NULL,
+      dateDeleted INT NULL,
       location VARCHAR(255) NULL,
       notes TEXT NULL,
       image VARCHAR(255) NULL
@@ -51,8 +51,9 @@ class LocalDBSingleton {
     await db.execute('''
     CREATE TABLE IF NOT EXISTS life_goal_categories(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      firebaseID VARCHAR(20) NOT NULL,
+      dateCreated INT NOT NULL,
       label VARCHAR(20) NOT NULL,
+      firebaseID VARCHAR(20) NOT NULL
     )
     ''');
 
@@ -72,7 +73,7 @@ class LocalDBSingleton {
       var value = {
         'firebaseID': FirebaseDocIDGenerator.createRandomID(),
         'label': category,
-        'dateCreated': DateTime.now().toUtc()
+        'dateCreated': DateTime.now().toUtc().millisecondsSinceEpoch
       };
       await db.insert('life_goal_categories', value);
     }
