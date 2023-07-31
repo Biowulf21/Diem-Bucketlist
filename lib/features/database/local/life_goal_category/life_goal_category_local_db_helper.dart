@@ -26,7 +26,8 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
     var lifeGoals = await db.query('life_goals');
 
     if (!isTableEmpty) {
-      lifeGoals = await db.query('life_goals', orderBy: 'dateCreated');
+      lifeGoals =
+          await db.query('life_goal_categories', orderBy: 'dateCreated');
       List<LifeGoalCategory> lifeGoallist =
           lifeGoals.map((e) => LifeGoalCategory.fromJson(e)).toList();
       return lifeGoallist;
