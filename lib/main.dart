@@ -8,6 +8,7 @@ import 'package:diem/features/authentication/screens/authenticated/people_page.d
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
+import 'package:diem/features/bucket_list/widgets/new_life_goal_bottomsheet_widget.dart';
 import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:diem/utils/input_validator.dart';
@@ -104,8 +105,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
     const PeoplePage()
   ];
 
-  List<LifeGoalCategory> selectedCategories = [];
-
   @override
   Widget build(BuildContext context) {
     void onTapBottomNavBarItem(int index) {
@@ -145,111 +144,10 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
         showDragHandle: true,
         isScrollControlled: true,
         builder: (BuildContext context) {
-          return StatefulBuilder(builder: (context, state) {
-            return SizedBox(
-              height: 500,
-              child: Padding(
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Form(
-                    key: formKey,
-                    child: ListView(children: [
-                      TextFormField(
-                        controller: titleController,
-                        decoration: const InputDecoration(
-                          label: Text("Title"),
-                        ),
-                        validator: (value) {
-                          String? validationResult =
-                              InputValidator(input: value)
-                                  .isRequired()
-                                  .maxLength(maxLength: 20)
-                                  .validate();
-
-                          return validationResult;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            label: Text("Description"), hintMaxLines: 4),
-                        validator: (value) {
-                          String? result = InputValidator(input: value)
-                              .isRequired()
-                              .maxLength(maxLength: 250)
-                              .validate();
-
-                          return result;
-                        },
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                        child: Text("Categories"),
-                      ),
-                      LifeGoalCategoriesWidget(
-                          selectedCategories: selectedCategories),
-
-                      // Padding(
-                      //   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      //   child: Container(
-                      //     padding: const EdgeInsets.all(15),
-                      //     decoration: BoxDecoration(
-                      //       border: Border.all(
-                      //         color: Colors.red,
-                      //         width: 2,
-                      //       ),
-                      //     ),
-                      //     child: _chipList(),
-                      //   ),
-
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            label: Text("Location"), hintMaxLines: 4),
-                      ),
-                      TextFormField(
-                        maxLength: 300,
-                        maxLines: 6,
-                        minLines: 1,
-                        decoration: const InputDecoration(
-                            label: Text("Notes"), hintMaxLines: 4),
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                            label: Text("Image"), hintMaxLines: 4),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              formKey.currentState!.validate();
-                            },
-                            child: const Text("CREATE NEW LIFE GOAL")),
-                      ),
-                    ]),
-                  ),
-                ),
-              ),
-            );
-          });
+          return NewLifeGoalBottomSheet(
+            formKey: formKey,
+            titleController: titleController,
+          );
         });
-  }
-
-  _chipList() async {
-    Database db = await LocalDBSingleton().database;
-
-    List<LifeGoalCategory> categories =
-        await LifeGoalCategoryDBHelper(instance: db).getLifeGoalCategories();
-
-    List<CustomChip> customChipList = categories
-        .map((e) => CustomChip(
-              category: e,
-              selectedCategories: selectedCategories,
-            ))
-        .toList();
-
-    return Wrap(
-      children: customChipList,
-    );
   }
 }
