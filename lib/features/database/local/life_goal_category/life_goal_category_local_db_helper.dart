@@ -19,7 +19,6 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
   @override
   Future<List<LifeGoalCategory>> getLifeGoalCategories() async {
     Database db = instance;
-    print('in getting life_goal_categories $instance');
     var isTableEmpty = Sqflite.firstIntValue(
             await db.rawQuery("SELECT COUNT(*) FROM life_goal_categories")) ==
         0;
@@ -27,8 +26,7 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
     var lifeGoals = await db.query('life_goals');
 
     if (!isTableEmpty) {
-      lifeGoals =
-          await db.query('life_goal_categories', orderBy: 'dateCreated');
+      lifeGoals = await db.query('life_goals', orderBy: 'dateCreated');
       List<LifeGoalCategory> lifeGoallist =
           lifeGoals.map((e) => LifeGoalCategory.fromJson(e)).toList();
       return lifeGoallist;
@@ -40,7 +38,7 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
   Future<int> updateLifeGoalCategory(LifeGoalCategory category) async {
     Database db = instance;
 
-    return await db.update('life_goals', category.toJson(),
+    return await db.update('life_goal_categories', category.toJson(),
         where: 'id = ?', whereArgs: [category.id]);
   }
 
