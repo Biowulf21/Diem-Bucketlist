@@ -30,9 +30,8 @@ class LocalDBSingleton {
 
   _createLifeGoalTable(Database db) async {
     await db.execute('''
-    CREATE TABLE life_goals(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      firebaseID VARCHAR(20) NOT NULL,
+    CREATE TABLE IF NOT EXISTS life_goals(
+      id INTEGER PRIMARY KEY AUTOINCREMENT, firebaseID VARCHAR(20) NOT NULL,
       title TEXT NOT NULL,
       description TEXT NOT NULL,
       isCompleted BOOLEAN NOT NULL,
@@ -48,7 +47,7 @@ class LocalDBSingleton {
 
   _createLifeGoalCategoriesTable(Database db) async {
     await db.execute('''
-    CREATE TABLE life_goal_categories(
+    CREATE TABLE IF NOT EXISTS life_goal_categories(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       firebaseID VARCHAR(20) NOT NULL,
       label VARCHAR(20) NOT NULL,
@@ -77,9 +76,11 @@ class LocalDBSingleton {
     }
   }
 
+  _createLifeGoalCategoryRelationship(Database db) async {
+    await db.execute('''
   _createForSynchTable(Database db) async {
     await db.execute('''
-    CREATE TABLE for_synch(
+    CREATE TABLE IF NOT EXISTS for_synch(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       life_goal_id INTEGER, -- Define the column first
       FOREIGN KEY (life_goal_id) REFERENCES life_goals(id) 
