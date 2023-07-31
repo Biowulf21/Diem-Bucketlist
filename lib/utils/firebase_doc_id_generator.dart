@@ -1,7 +1,7 @@
 import 'dart:math';
 
 class FirebaseDocIDGenerator {
-  static String generateRandomString() {
+  static String createRandomID() {
     final random = Random();
     final codeUnits = List.generate(20, (index) {
       final isUppercase = random.nextBool();

@@ -26,7 +26,6 @@ class LocalDBSingleton {
     await _createLifeGoalCategoriesTable(db);
     await _createLifeGoalTable(db);
     await _createForSynchTable(db);
-
   }
 
   _createLifeGoalTable(Database db) async {
@@ -70,7 +69,7 @@ class LocalDBSingleton {
 
     for (final category in defaultCategories) {
       var value = {
-        'firebaseID': FirebaseDocIDGenerator.generateRandomString(),
+        'firebaseID': FirebaseDocIDGenerator.createRandomID(),
         'label': category,
         'dateCreated': DateTime.now().toUtc()
       };

@@ -84,6 +84,7 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
                   child: ElevatedButton(
                       onPressed: () {
                         widget.formKey.currentState!.validate();
+                                  id: FirebaseDocIDGenerator.createRandomID(),
                       },
                       child: const Text("CREATE NEW LIFE GOAL")),
                 ),
