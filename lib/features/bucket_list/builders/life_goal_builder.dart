@@ -45,6 +45,7 @@ class LifeGoalBuilder {
     LifeGoal goal = LifeGoal(
         firebaseID: firebaseID,
         title: title,
+        categories: _categories,
         description: description,
         isCompleted: isCompleted);
 
