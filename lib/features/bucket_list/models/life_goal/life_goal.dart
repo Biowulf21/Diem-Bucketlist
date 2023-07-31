@@ -5,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 
 class LifeGoal {
-  int? id;
   String firebaseID;
+  int? id;
   String title;
   String description;
   bool isCompleted;
