@@ -1,7 +1,10 @@
+import 'package:diem/features/bucket_list/builders/life_goal_builder.dart';
+import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
 import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
+import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:diem/utils/input_validator.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +12,16 @@ import 'package:sqflite/sqlite_api.dart';
 
 class NewLifeGoalBottomSheet extends StatefulWidget {
   final TextEditingController titleController;
+  final TextEditingController descriptionController;
+
   final GlobalKey<FormState> formKey;
   final List<LifeGoalCategory> selectedCategories = [];
 
   NewLifeGoalBottomSheet(
-      {super.key, required this.titleController, required this.formKey});
+      {super.key,
+      required this.titleController,
+      required this.descriptionController,
+      required this.formKey});
 
   @override
   State<NewLifeGoalBottomSheet> createState() => _NewLifeGoalBottomSheetState();
@@ -83,8 +91,18 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
                   padding: const EdgeInsets.only(top: 15.0),
                   child: ElevatedButton(
                       onPressed: () {
-                        widget.formKey.currentState!.validate();
+                        bool isFormValid =
+                            widget.formKey.currentState!.validate();
+
+                        if (isFormValid) {
+                          LifeGoal goal = LifeGoalBuilder(
                                   id: FirebaseDocIDGenerator.createRandomID(),
+                                  title: widget.titleController.text,
+                                  description:
+                                      widget.descriptionController.text,
+                                  isCompleted: false)
+                              .build();
+                        }
                       },
                       child: const Text("CREATE NEW LIFE GOAL")),
                 ),
