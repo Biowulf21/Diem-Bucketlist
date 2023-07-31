@@ -83,8 +83,8 @@ class LocalDBSingleton {
       CREATE TABLE IF NOT EXISTS life_goal_category_relationship (
       goal_id INTEGER,
       category_id INTEGER,
-      FOREIGN KEY (goal_id) REFERENCES life_goal (goal_id),
-      FOREIGN KEY (category_id) REFERENCES life_goal_category (category_id),
+      FOREIGN KEY (goal_id) REFERENCES life_goals (goal_id),
+      FOREIGN KEY (category_id) REFERENCES life_goal_categories (category_id),
       PRIMARY KEY (goal_id, category_id)
 );
   ''');
