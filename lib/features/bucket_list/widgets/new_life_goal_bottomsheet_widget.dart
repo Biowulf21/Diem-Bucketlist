@@ -29,6 +29,14 @@ class NewLifeGoalBottomSheet extends StatefulWidget {
 
 class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.descriptionController.dispose();
+    widget.titleController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StatefulBuilder(builder: (context, state) {
       return SizedBox(
