@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 class LifeGoalCategoriesWidget extends StatefulWidget {
-  List<LifeGoalCategory> selectedCategories = [];
   LifeGoalCategoriesWidget({super.key, required this.selectedCategories});
+
+  final List<LifeGoalCategory> selectedCategories;
 
   @override
   State<LifeGoalCategoriesWidget> createState() =>

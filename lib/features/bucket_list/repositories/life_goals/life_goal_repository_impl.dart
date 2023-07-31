@@ -1,6 +1,7 @@
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/repositories/life_goals/life_goal_repository.dart';
 import 'package:diem/features/database/local/life_goal/local_file_source_life_goal.dart';
+import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:diem/features/database/remote/firebase_datasource_life_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,8 +10,6 @@ import 'package:sqflite/sqlite_api.dart';
 import '../../providers/life_goal_category_provider.dart';
 
 class LifeGoalImplRepository implements LifeGoalRepository {
-
-
   @override
   Future<void> addLifeItem(LifeGoal lifeItem) async {
     return Future(() => null);
@@ -18,8 +17,9 @@ class LifeGoalImplRepository implements LifeGoalRepository {
 
   @override
   Future<List<LifeGoal>> fetchLifeGoals() async {
+    Database instance = await LocalDBSingleton().database;
     List<LifeGoal> lifeGoalsFromLocalDataSource =
-        await LocalDataSourceLifeGoalImpl(instance: null).getLifeGoals();
+        await LocalDataSourceLifeGoalImpl(instance: instance).getLifeGoals();
 
     if (lifeGoalsFromLocalDataSource.isEmpty) {
       List<LifeGoal> lifeGoalsFromCloud =

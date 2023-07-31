@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:diem/features/bucket_list/builders/life_goal_builder.dart';
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
@@ -15,7 +17,7 @@ class NewLifeGoalBottomSheet extends StatefulWidget {
   final TextEditingController descriptionController;
 
   final GlobalKey<FormState> formKey;
-  final List<LifeGoalCategory> selectedCategories = [];
+  List<LifeGoalCategory> selectedCategories = [];
 
   NewLifeGoalBottomSheet(
       {super.key,
@@ -64,6 +66,7 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
                   },
                 ),
                 TextFormField(
+                  controller: widget.descriptionController,
                   decoration: const InputDecoration(
                       label: Text("Description"), hintMaxLines: 4),
                   validator: (value) {
@@ -104,12 +107,19 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
 
                         if (isFormValid) {
                           LifeGoal goal = LifeGoalBuilder(
-                                  id: FirebaseDocIDGenerator.createRandomID(),
+                                  firebaseID:
+                                      FirebaseDocIDGenerator.createRandomID(),
                                   title: widget.titleController.text,
                                   description:
                                       widget.descriptionController.text,
                                   isCompleted: false)
+                              .addCategories(widget.selectedCategories)
                               .build();
+
+                          print(goal.categories.toString());
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("Form is not valid")));
                         }
                       },
                       child: const Text("CREATE NEW LIFE GOAL")),
