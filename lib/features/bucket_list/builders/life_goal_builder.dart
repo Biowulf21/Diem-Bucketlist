@@ -4,7 +4,8 @@ import '../models/life_goal_category/life_goal_category.dart';
 
 class LifeGoalBuilder {
   String title;
-  String id;
+  String firebaseID;
+  String? id;
   String description;
   bool isCompleted = false;
   bool? _isDeleted;
@@ -15,34 +16,34 @@ class LifeGoalBuilder {
   String? _image;
 
   LifeGoalBuilder(
-      {required this.id,
+      {required this.firebaseID,
       required this.title,
       required this.description,
       required this.isCompleted});
 
   LifeGoalBuilder addCategories(List<LifeGoalCategory> categories) {
-    this._categories = categories;
+    _categories = categories;
     return this;
   }
 
   LifeGoalBuilder addLocation(String location) {
-    this._location = location;
+    _location = location;
     return this;
   }
 
   LifeGoalBuilder addNotes(String notes) {
-    this._notes = notes;
+    _notes = notes;
     return this;
   }
 
   LifeGoalBuilder addImage(String image) {
-    this._image = image;
+    _image = image;
     return this;
   }
 
   LifeGoal build() {
     LifeGoal goal = LifeGoal(
-        id: id,
+        firebaseID: firebaseID,
         title: title,
         description: description,
         isCompleted: isCompleted);
