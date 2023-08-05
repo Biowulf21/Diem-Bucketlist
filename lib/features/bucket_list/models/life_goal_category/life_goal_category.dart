@@ -2,7 +2,7 @@ import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 
 class LifeGoalCategory {
   String label;
-  String id;
+  int id;
   String firebaseID;
   String? description;
 
@@ -13,19 +13,19 @@ class LifeGoalCategory {
       this.description});
 
   String get getLabel => label;
-  String get getId => id;
+  int get getId => id;
   String? get getDescription => description;
 
   factory LifeGoalCategory.fromJson(Map<String, dynamic> json) =>
       LifeGoalCategory(
         firebaseID: json['firebaseID'],
         label: json['label'],
-        id: json['id'].toString(),
+        id: json['id'],
         description: json['description'],
       );
 
   Map<String, dynamic> toJson() => {
-        'id': int.parse(id),
+        'id': id,
         'label': label,
         'firebaseID': firebaseID,
         'description': description
