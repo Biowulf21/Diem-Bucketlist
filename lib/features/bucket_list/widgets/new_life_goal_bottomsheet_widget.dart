@@ -95,14 +95,16 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         bool isFormValid =
                             widget.formKey.currentState!.validate();
 
                         if (isFormValid) {
+                          final String firebaseID =
+                              FirebaseDocIDGenerator.createRandomID();
+
                           LifeGoal goal = LifeGoalBuilder(
-                                  firebaseID:
-                                      FirebaseDocIDGenerator.createRandomID(),
+                                  firebaseID: firebaseID,
                                   title: widget.titleController.text,
                                   description:
                                       widget.descriptionController.text,
@@ -110,8 +112,20 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
                               .addCategories(widget.selectedCategories)
                               .build();
 
-                          LocalDataSourceLifeGoalImpl(instance: widget.db)
+                          //TODO:  reimplement to use life_goal_repository
+
+                          var res = await LocalDataSourceLifeGoalImpl(
+                                  instance: widget.db)
                               .addLifeGoal(goal);
+
+                          //TODO: get the new life goal
+
+                          LifeGoal lifeGoalFromDB =
+                              await LocalDataSourceLifeGoalImpl(
+                                      instance: widget.db)
+                                  .getLifeGoal(goal.firebaseID);
+
+                          //TODO: and create its category relationships using the lifeGoal object
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("Form is not valid")));
