@@ -12,8 +12,8 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
   @override
   Future<int> deleteLifeGoalCategory(String id) async {
     Database db = instance;
-    return await db
-        .delete('life_goal_categories', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('life_goal_categories',
+        where: 'firebaseID = ?', whereArgs: [id]);
   }
 
   @override
@@ -40,7 +40,7 @@ class LifeGoalCategoryDBHelper implements AbstractLifeGoalCategoryDBHelper {
     Database db = instance;
 
     return await db.update('life_goal_categories', category.toJson(),
-        where: 'id = ?', whereArgs: [category.id]);
+        where: 'firebaseID = ?', whereArgs: [category.firebaseID]);
   }
 
   @override

@@ -5,7 +5,6 @@ import '../models/life_goal_category/life_goal_category.dart';
 class LifeGoalBuilder {
   String title;
   String firebaseID;
-  String? id;
   String description;
   bool isCompleted = false;
   bool? _isDeleted;
@@ -47,6 +46,7 @@ class LifeGoalBuilder {
         title: title,
         categories: _categories,
         description: description,
+        dateCreated: DateTime.now().toUtc().millisecondsSinceEpoch,
         isCompleted: isCompleted);
 
     return goal;

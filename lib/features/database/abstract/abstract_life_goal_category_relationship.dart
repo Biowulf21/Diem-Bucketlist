@@ -11,5 +11,5 @@ abstract class AbstractLifeGoalCategoryRelationshipoDBHelper {
   Future<int> updateLifeGoalCategoryRelationship(
       LifeGoalCategoryRelationship category);
 
-  Future<int> deleteLifeGoalCategoryRelationship(int id);
+  Future<int> deleteLifeGoalCategoryRelationship(String id);
 }

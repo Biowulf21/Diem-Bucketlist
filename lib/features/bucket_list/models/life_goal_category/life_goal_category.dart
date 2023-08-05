@@ -1,8 +1,6 @@
-import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 
 class LifeGoalCategory {
   String label;
-  int id;
   String firebaseID;
   String? description;
 

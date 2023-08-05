@@ -20,10 +20,10 @@ class LifeGoalCategoryRelationshipDBHelper
   }
 
   @override
-  Future<int> deleteLifeGoalCategoryRelationship(int id) {
+  Future<int> deleteLifeGoalCategoryRelationship(String id) {
     Database db = instance;
     return db.delete('life_goal_category_relationship',
-        where: 'id = ?', whereArgs: [id]);
+        where: 'firebaseID = ?', whereArgs: [id]);
   }
 
   @override
@@ -54,6 +54,6 @@ class LifeGoalCategoryRelationshipDBHelper
     Database db = instance;
 
     return await db.update('life_goal_category_relationship', category.toJson(),
-        where: 'id = ?', whereArgs: [category.id]);
+        where: 'firebaseID = ?', whereArgs: [category.firebaseID]);
   }
 }
