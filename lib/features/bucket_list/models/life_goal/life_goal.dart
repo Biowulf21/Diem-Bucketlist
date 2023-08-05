@@ -62,9 +62,9 @@ class LifeGoal {
         'title': title,
         'description': description,
         'isCompleted': isCompleted,
+        'dateCreated': dateCreated,
         'isDeleted': isDeleted,
         'dateDeleted': dateDeleted,
-        'categories': categories,
         'location': location,
         'notes': notes,
         'image': image
