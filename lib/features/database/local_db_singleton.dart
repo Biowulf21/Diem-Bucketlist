@@ -95,8 +95,9 @@ class LocalDBSingleton {
   _createForSynchTable(Database db) async {
     await db.execute('''
     CREATE TABLE IF NOT EXISTS for_synch(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      life_goal_id INTEGER, -- Define the column first
+      firebaseID PRIMARY KEY ,
+      id INTEGER AUTOINCREMENT,
+      life_goal_id VARCHAR(20) NOT NULL,
       FOREIGN KEY (life_goal_id) REFERENCES life_goals(firebaseID) 
     )
     ''');
