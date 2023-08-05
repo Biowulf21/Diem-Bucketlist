@@ -8,8 +8,9 @@ class LifeGoal {
   String title;
   String description;
   bool isCompleted;
+  int dateCreated;
   bool? isDeleted;
-  Timestamp? dateDeleted;
+  DateTime? dateDeleted;
   List<LifeGoalCategory>? categories;
   String? location;
   String? notes;
@@ -20,8 +21,8 @@ class LifeGoal {
       required this.title,
       required this.description,
       required this.isCompleted,
+      required this.dateCreated,
       this.isDeleted = false,
-      this.id,
       this.dateDeleted,
       this.categories,
       this.location,
@@ -30,22 +31,33 @@ class LifeGoal {
 
   factory LifeGoal.fromJson(Map<String, dynamic> json) {
     return LifeGoal(
-      id: json['id'],
-      firebaseID: json['firebaseID'],
-      title: json['title'],
-      description: json['description'],
-      isCompleted: json['isCompleted'],
-      isDeleted: json['isDeleted'],
-      dateDeleted: json['dateDeleted'],
-      categories: json['categories'],
-      location: json['location'],
-      notes: json['notes'],
-      image: json['image'],
-    );
+        firebaseID: json['firebaseID'],
+        title: json['title'],
+        description: json['description'],
+        isCompleted: json['isCompleted'] == 1 ? true : false,
+        isDeleted: json['isDeleted'] == 1 ? true : false,
+        dateDeleted: json['dateDeleted'],
+        categories: json['categories'],
+        location: json['location'],
+        notes: json['notes'],
+        image: json['image'],
+        dateCreated: json['dateCreated']);
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
+        'firebaseID': firebaseID,
+        'title': title,
+        'description': description,
+        'isCompleted': isCompleted == true ? 1 : 0,
+        'dateCreated': dateCreated,
+        'isDeleted': isDeleted == true ? 1 : 0,
+        'dateDeleted': dateDeleted,
+        'categories': categories,
+        'location': location,
+        'notes': notes,
+        'image': image
+      };
+
         'firebaseID': firebaseID,
         'title': title,
         'description': description,
