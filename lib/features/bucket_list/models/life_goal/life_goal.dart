@@ -58,6 +58,7 @@ class LifeGoal {
         'image': image
       };
 
+  Map<String, dynamic> toJsonNoCategories() => {
         'firebaseID': firebaseID,
         'title': title,
         'description': description,
