@@ -6,13 +6,8 @@ import 'package:diem/features/authentication/screens/authenticated/list_page.dar
 import 'package:diem/features/authentication/screens/authenticated/map_page.dart';
 import 'package:diem/features/authentication/screens/authenticated/people_page.dart';
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
-import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
-import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
 import 'package:diem/features/bucket_list/widgets/new_life_goal_bottomsheet_widget.dart';
-import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
-import 'package:diem/utils/input_validator.dart';
-import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -153,6 +148,8 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
             descriptionController: descriptionController,
             db: database,
           );
-        });
+        }).whenComplete(() => {
+            Navigator.of(context).pop();
+          });
   }
 }
