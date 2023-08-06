@@ -20,7 +20,10 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
     var lifeGoals = await db.query('life_goals');
 
     if (!isTableEmpty) {
-      lifeGoals = await db.query('life_goals', orderBy: 'dateCreated DESC');
+      lifeGoals = await db.query('life_goals',
+          orderBy: 'dateCreated DESC',
+          where: 'isDeleted IS NULL OR isDeleted = ?',
+          whereArgs: [0]);
       List<LifeGoal> lifeGoallist =
           lifeGoals.map((e) => LifeGoal.fromJson(e)).toList();
       return lifeGoallist;
