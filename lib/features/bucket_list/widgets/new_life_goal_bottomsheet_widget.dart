@@ -1,6 +1,7 @@
 import 'package:diem/features/bucket_list/builders/life_goal_builder.dart';
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
+import 'package:diem/features/bucket_list/providers/bucketlist_item_providers.dart';
 import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
 import 'package:diem/features/database/local/life_goal/local_file_source_life_goal.dart';
 import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
@@ -9,10 +10,11 @@ import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:diem/utils/input_validator.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 // ignore: must_be_immutable
-class NewLifeGoalBottomSheet extends StatefulWidget {
+class NewLifeGoalBottomSheet extends ConsumerStatefulWidget {
   final TextEditingController titleController;
   final TextEditingController descriptionController;
   final Database db;
@@ -20,18 +22,20 @@ class NewLifeGoalBottomSheet extends StatefulWidget {
   final GlobalKey<FormState> formKey;
   List<LifeGoalCategory> selectedCategories = [];
 
-  NewLifeGoalBottomSheet(
-      {super.key,
-      required this.db,
-      required this.titleController,
-      required this.descriptionController,
-      required this.formKey});
+  NewLifeGoalBottomSheet({
+    Key? key,
+    required this.db,
+    required this.titleController,
+    required this.descriptionController,
+    required this.formKey,
+  }) : super(key: key);
 
   @override
-  State<NewLifeGoalBottomSheet> createState() => _NewLifeGoalBottomSheetState();
+  _NewLifeGoalBottomSheetState createState() => _NewLifeGoalBottomSheetState();
 }
 
-class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
+class _NewLifeGoalBottomSheetState
+    extends ConsumerState<NewLifeGoalBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(builder: (context, state) {
@@ -120,12 +124,21 @@ class _NewLifeGoalBottomSheetState extends State<NewLifeGoalBottomSheet> {
 
                           //TODO: get the new life goal
 
-                          LifeGoal lifeGoalFromDB =
-                              await LocalDataSourceLifeGoalImpl(
-                                      instance: widget.db)
-                                  .getLifeGoal(goal.firebaseID);
+                          // LifeGoal lifeGoalFromDB =
+                          //     await LocalDataSourceLifeGoalImpl(
+                          //             instance: widget.db)
+                          //         .getLifeGoal(goal.firebaseID);
 
                           //TODO: and create its category relationships using the lifeGoal object
+                          //
+
+                          ref.invalidate(lifeGoalListProvider);
+
+                          Navigator.of(context).pop();
+
+                          // TODO: write a facade to handle this logic
+                          // make it a return a future that will run navigator.pop when completed
+                          // and display a loading bar until then
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text("Form is not valid")));

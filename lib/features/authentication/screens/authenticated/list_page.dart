@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ListPage extends ConsumerStatefulWidget {
-  const ListPage({Key? key}) : super(key: key);
+  // List<Widget> lifeGoals;
+
+  const ListPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   ListPageState createState() => ListPageState();
