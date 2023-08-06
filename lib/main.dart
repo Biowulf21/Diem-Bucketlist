@@ -71,8 +71,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
 
   @override
   void initState() {
-    // TODO: create tables for life_goals, life_goal_category, and sync_queue
-    // TODO rename for_synch to sync_queue
     super.initState();
     getDatabaseInstance();
   }
@@ -87,7 +85,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
     print(tableNames);
   }
 
-  String update = 'Oya Update Jhoor';
   int _currentNavBarIndex = 0;
 
   final bottomNavBarItems = <BottomNavigationBarItem>[
@@ -148,8 +145,6 @@ class MyHomePageState extends ConsumerState<MyHomePage> {
             descriptionController: descriptionController,
             db: database,
           );
-        }).whenComplete(() => {
-            Navigator.of(context).pop();
-          });
+        }).whenComplete(() => {});
   }
 }
