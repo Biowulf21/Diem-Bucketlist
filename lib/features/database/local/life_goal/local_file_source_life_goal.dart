@@ -50,7 +50,23 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
   @override
   Future<int> addLifeGoal(LifeGoal lifeGoal) async {
     Database db = instance;
-    return await db.insert('life_goals', lifeGoal.toJsonNoCategories());
+    //TODO: add checks if inseertion of relationships fail and throw error
+    // corresponding errors
+    int res = await db.insert('life_goals', lifeGoal.toJsonNoCategories());
+    if (res == 1) {
+      for (var category in lifeGoal.categories!) {
+        LifeGoalCategoryRelationship relationship =
+            LifeGoalCategoryRelationship(
+                firebaseID: FirebaseDocIDGenerator.createRandomID(),
+                goalID: lifeGoal.firebaseID,
+                categoryID: category.firebaseID);
+
+        int relationshipRes =
+            await LifeGoalCategoryRelationshipDBHelper(instance: instance)
+                .createLifeGoalCategoryRelationship(relationship);
+      }
+    }
+    return res;
   }
 
   @override
