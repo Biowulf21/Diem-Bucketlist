@@ -1,6 +1,6 @@
 class LifeGoalCategoryRelationship {
-  int goalID;
-  int categoryID;
+  String goalID;
+  String categoryID;
   String firebaseID;
 
   LifeGoalCategoryRelationship({
