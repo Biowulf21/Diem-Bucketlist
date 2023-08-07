@@ -13,10 +13,14 @@ class LifeGoalCategoryRelationshipDBHelper
 
   @override
   Future<int> createLifeGoalCategoryRelationship(
-      LifeGoalCategoryRelationship category) async {
+      String lifeGoalID, LifeGoalCategoryRelationship category) async {
     Database db = instance;
-    return await db.insert(
-        'life_goal_category_relationship', category.toJson());
+    // return await db.insert(
+    //     'life_goal_category_relationship', category.toJson());
+    return db.insert('life_goal_category_relationship', {
+      'goal_id': lifeGoalID,
+      'category_id': category.firebaseID,
+    });
   }
 
   @override
@@ -28,14 +32,16 @@ class LifeGoalCategoryRelationshipDBHelper
 
   @override
   Future<List<LifeGoalCategoryRelationship>> getLifeGoalCategoryRelationships(
-      String lifeGoalID, String categoryID) async {
+      String lifeGoalID, String? categoryID) async {
     Database db = instance;
 
     var isTableEmpty = firstIntValue(await db.rawQuery(
             "SELECT COUNT(*) FROM life_goal_category_relationship")) ==
         0;
 
-    var lifeGoals = await db.query('life_goal_category_relationship');
+    var lifeGoals = await db.query(
+      'life_goal_category_relationship',
+    );
 
     if (!isTableEmpty) {
       lifeGoals = await db.query('life_goal_category_relationship',
@@ -46,6 +52,21 @@ class LifeGoalCategoryRelationshipDBHelper
       return lifeGoalRelationships;
     }
     return [];
+  }
+
+  Future<List<LifeGoalCategoryRelationship>>
+      getLifeGoalCategoryRelationshipsWithLifeGoalID(String id) async {
+    Database db = instance;
+
+    const query = '''
+          SELECT life_goal_category_relationship.goal_id, life_goal_category_relationship.category_id
+          FROM life_goal_category_relationship
+          JOIN life_goals lg ON life_goal_category_relationship.goal_id = lg.firebaseID
+          WHERE lg.firebaseID = ?;
+  ''';
+
+    final List<Map<String, dynamic>> result = await db.rawQuery(query, [id]);
+    return result.map((e) => LifeGoalCategoryRelationship.fromJson(e)).toList();
   }
 
   @override
