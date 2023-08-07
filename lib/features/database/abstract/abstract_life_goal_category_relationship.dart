@@ -3,7 +3,7 @@ import 'package:diem/features/bucket_list/models/life_goal_category_relationship
 
 abstract class AbstractLifeGoalCategoryRelationshipoDBHelper {
   Future<int> createLifeGoalCategoryRelationship(
-      String lifeGoalID, LifeGoalCategoryRelationship category);
+      LifeGoalCategoryRelationship category);
 
   Future<List<LifeGoalCategoryRelationship>> getLifeGoalCategoryRelationships(
       String lifeGoalID, String categoryID);

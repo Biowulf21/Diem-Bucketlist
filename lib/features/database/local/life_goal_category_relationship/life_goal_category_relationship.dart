@@ -13,13 +13,13 @@ class LifeGoalCategoryRelationshipDBHelper
 
   @override
   Future<int> createLifeGoalCategoryRelationship(
-      String lifeGoalID, LifeGoalCategoryRelationship category) async {
+      LifeGoalCategoryRelationship category) async {
     Database db = instance;
-    // return await db.insert(
-    //     'life_goal_category_relationship', category.toJson());
+
     return db.insert('life_goal_category_relationship', {
-      'goal_id': lifeGoalID,
-      'category_id': category.firebaseID,
+      'firebaseID': category.firebaseID,
+      'goal_id': category.goalID,
+      'category_id': category.categoryID,
     });
   }
 
