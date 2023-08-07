@@ -13,13 +13,12 @@ class LifeGoalCategoryRelationshipDBHelper
 
   @override
   Future<int> createLifeGoalCategoryRelationship(
-      LifeGoalCategoryRelationship relationship) async {
+      LifeGoalCategoryRelationship category) async {
     Database db = instance;
 
     return db.insert('life_goal_category_relationship', {
-      'firebaseID': relationship.firebaseID,
-      'goal_id': relationship.goalID,
-      'category_id': relationship.categoryID,
+      'goal_id': category.goalID,
+      'category_id': category.categoryID,
     });
   }
 
@@ -58,15 +57,27 @@ class LifeGoalCategoryRelationshipDBHelper
       String id) async {
     Database db = instance;
 
+    //TODO: correct this query: so far it says that firebaseID is not found
+    // categories table
     const query = '''
-          SELECT life_goal_category_relationship.goal_id, life_goal_category_relationship.category_id
-          FROM life_goal_category_relationship
-          JOIN life_goals lg ON life_goal_category_relationship.goal_id = lg.firebaseID
-          WHERE lg.firebaseID = ?;
+
+SELECT lgr.goal_id,
+       lg.title AS goal_title,
+       lgc.firebaseID AS category_id,
+       lgc.label AS category_label
+FROM life_goal_category_relationship AS lgr
+INNER JOIN life_goals AS lg ON lgr.goal_id = lg.firebaseID
+INNER JOIN life_goal_categories AS lgc ON lgr.category_id = lgc.firebaseID
+WHERE lg.firebaseID = ?;
+
+ 
   ''';
 
     final List<Map<String, dynamic>> result = await db.rawQuery(query, [id]);
-    return result.map((e) => LifeGoalCategory.fromJson(e)).toList();
+    return result
+        .map((e) => LifeGoalCategory(
+            label: e['category_label'], firebaseID: e['category_id']))
+        .toList();
   }
 
   @override
