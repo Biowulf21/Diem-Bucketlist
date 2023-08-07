@@ -83,9 +83,8 @@ class LocalDBSingleton {
       goal_id TEXT,
       category_id TEXT,
       FOREIGN KEY (goal_id) REFERENCES life_goals (firebaseID),
-      FOREIGN KEY (category_id) REFERENCES life_goal_categories (firebaseID),
-      PRIMARY KEY (goal_id, category_id)
-);
+      FOREIGN KEY (category_id) REFERENCES life_goal_categories (firebaseID)
+      )
   ''');
   }
 
