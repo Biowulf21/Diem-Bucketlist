@@ -13,13 +13,13 @@ class LifeGoalCategoryRelationshipDBHelper
 
   @override
   Future<int> createLifeGoalCategoryRelationship(
-      LifeGoalCategoryRelationship category) async {
+      LifeGoalCategoryRelationship relationship) async {
     Database db = instance;
 
     return db.insert('life_goal_category_relationship', {
-      'firebaseID': category.firebaseID,
-      'goal_id': category.goalID,
-      'category_id': category.categoryID,
+      'firebaseID': relationship.firebaseID,
+      'goal_id': relationship.goalID,
+      'category_id': relationship.categoryID,
     });
   }
 
@@ -54,8 +54,8 @@ class LifeGoalCategoryRelationshipDBHelper
     return [];
   }
 
-  Future<List<LifeGoalCategoryRelationship>>
-      getLifeGoalCategoryRelationshipsWithLifeGoalID(String id) async {
+  Future<List<LifeGoalCategory>> getCategoriesFromRelationship(
+      String id) async {
     Database db = instance;
 
     const query = '''
@@ -66,7 +66,7 @@ class LifeGoalCategoryRelationshipDBHelper
   ''';
 
     final List<Map<String, dynamic>> result = await db.rawQuery(query, [id]);
-    return result.map((e) => LifeGoalCategoryRelationship.fromJson(e)).toList();
+    return result.map((e) => LifeGoalCategory.fromJson(e)).toList();
   }
 
   @override
