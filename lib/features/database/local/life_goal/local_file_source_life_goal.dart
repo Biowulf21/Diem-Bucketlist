@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
+import 'package:diem/features/bucket_list/models/life_goal_category_relationship/life_goal_relationship_category.dart';
 import 'package:diem/features/database/abstract/abstract_data_source.dart';
+import 'package:diem/features/database/local/life_goal_category_relationship/life_goal_category_relationship.dart';
+import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
