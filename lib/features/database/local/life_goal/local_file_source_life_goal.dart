@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
-import 'package:diem/features/bucket_list/models/life_goal_category_relationship/life_goal_relationship_category.dart';
+import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/database/abstract/abstract_data_source.dart';
 import 'package:diem/features/database/local/life_goal_category_relationship/life_goal_category_relationship.dart';
-import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
@@ -27,9 +26,20 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
           orderBy: 'dateCreated DESC',
           where: 'isDeleted IS NULL OR isDeleted = ?',
           whereArgs: [0]);
-      List<LifeGoal> lifeGoallist =
+
+      List<LifeGoal> lifeGoalList =
           lifeGoals.map((e) => LifeGoal.fromJson(e)).toList();
-      return lifeGoallist;
+
+      for (var goal in lifeGoalList) {
+        List<LifeGoalCategory> lifeGoalCategoryRelationships =
+            await LifeGoalCategoryRelationshipDBHelper(instance: db)
+                .getCategoriesFromRelationship(goal.firebaseID);
+
+        goal.categories = lifeGoalCategoryRelationships;
+
+        print('lifeGoalCategories: $lifeGoalCategoryRelationships');
+      }
+      return lifeGoalList;
     }
     return [];
   }
@@ -52,20 +62,8 @@ class LocalDataSourceLifeGoalImpl implements AbstractDataSource {
     Database db = instance;
     //TODO: add checks if inseertion of relationships fail and throw error
     // corresponding errors
-    int res = await db.insert('life_goals', lifeGoal.toJsonNoCategories());
-    if (res == 1) {
-      for (var category in lifeGoal.categories!) {
-        LifeGoalCategoryRelationship relationship =
-            LifeGoalCategoryRelationship(
-                firebaseID: FirebaseDocIDGenerator.createRandomID(),
-                goalID: lifeGoal.firebaseID,
-                categoryID: category.firebaseID);
 
-        int relationshipRes =
-            await LifeGoalCategoryRelationshipDBHelper(instance: instance)
-                .createLifeGoalCategoryRelationship(relationship);
-      }
-    }
+    int res = await db.insert('life_goals', lifeGoal.toJsonNoCategories());
     return res;
   }
 

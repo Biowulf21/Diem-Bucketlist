@@ -4,7 +4,6 @@ import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_ca
 import 'package:diem/features/bucket_list/models/life_goal_category_relationship/life_goal_relationship_category.dart';
 import 'package:diem/features/bucket_list/repositories/life_goals/life_goal_repository.dart';
 import 'package:diem/features/database/local/life_goal/local_file_source_life_goal.dart';
-import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local/life_goal_category_relationship/life_goal_category_relationship.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:diem/features/database/remote/firebase_datasource_life_item.dart';
@@ -31,6 +30,8 @@ class LifeGoalImplRepository implements LifeGoalRepository {
     var res = await LocalDataSourceLifeGoalImpl(instance: db).addLifeGoal(goal);
 
     if (goal.categories!.isNotEmpty) {
+      var counter = 0;
+      List<LifeGoalCategoryRelationship> relationshipList = [];
       for (var category in goal.categories!) {
         LifeGoalCategoryRelationship relationship =
             LifeGoalCategoryRelationship(
@@ -39,10 +40,16 @@ class LifeGoalImplRepository implements LifeGoalRepository {
           firebaseID: FirebaseDocIDGenerator.createRandomID(),
         );
 
+        //FIXME: this creates two records of the same relationship in the database
+        relationshipList.add(relationship);
+        counter++;
+      }
+
+      relationshipList.forEach((element) async {
         var relationshipResult =
             await LifeGoalCategoryRelationshipDBHelper(instance: db)
-                .createLifeGoalCategoryRelationship(relationship);
-      }
+                .createLifeGoalCategoryRelationship(element);
+      });
     }
 
     // if (goal.categories!.isNotEmpty) {
