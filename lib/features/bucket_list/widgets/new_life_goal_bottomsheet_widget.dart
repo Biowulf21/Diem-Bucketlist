@@ -1,12 +1,9 @@
-import 'package:diem/features/bucket_list/builders/life_goal_builder.dart';
-import 'package:diem/features/bucket_list/models/life_goal/life_goal.dart';
 import 'package:diem/features/bucket_list/models/life_goal_category/life_goal_category.dart';
 import 'package:diem/features/bucket_list/providers/bucketlist_item_providers.dart';
+import 'package:diem/features/bucket_list/repositories/life_goals/life_goal_repository_impl.dart';
 import 'package:diem/features/bucket_list/widgets/life_goal_categories_widget.dart';
-import 'package:diem/features/database/local/life_goal/local_file_source_life_goal.dart';
 import 'package:diem/features/database/local/life_goal_category/life_goal_category_local_db_helper.dart';
 import 'package:diem/features/database/local_db_singleton.dart';
-import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:diem/utils/input_validator.dart';
 import 'package:diem/utils/widgets/custom_chip.dart';
 import 'package:flutter/material.dart';
@@ -99,52 +96,30 @@ class _NewLifeGoalBottomSheetState
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: ElevatedButton(
-                      onPressed: () async {
-                        bool isFormValid =
-                            widget.formKey.currentState!.validate();
+                    onPressed: () async {
+                      bool isFormValid =
+                          widget.formKey.currentState!.validate();
 
-                        if (isFormValid) {
-                          final String firebaseID =
-                              FirebaseDocIDGenerator.createRandomID();
+                      if (isFormValid) {
+                        LifeGoalImplRepository().addLifeGoal(
+                            title: widget.titleController.text,
+                            description: widget.descriptionController.text,
+                            selectedCategories: widget.selectedCategories,
+                            db: widget.db);
 
-                          LifeGoal goal = LifeGoalBuilder(
-                                  firebaseID: firebaseID,
-                                  title: widget.titleController.text,
-                                  description:
-                                      widget.descriptionController.text,
-                                  isCompleted: false)
-                              .addCategories(widget.selectedCategories)
-                              .build();
+                        ref.invalidate(lifeGoalListProvider);
 
-                          //TODO:  reimplement to use life_goal_repository
-
-                          var res = await LocalDataSourceLifeGoalImpl(
-                                  instance: widget.db)
-                              .addLifeGoal(goal);
-
-                          //TODO: get the new life goal
-
-                          // LifeGoal lifeGoalFromDB =
-                          //     await LocalDataSourceLifeGoalImpl(
-                          //             instance: widget.db)
-                          //         .getLifeGoal(goal.firebaseID);
-
-                          //TODO: and create its category relationships using the lifeGoal object
-                          //
-
-                          ref.invalidate(lifeGoalListProvider);
-
-                          Navigator.of(context).pop();
-
-                          // TODO: write a facade to handle this logic
-                          // make it a return a future that will run navigator.pop when completed
-                          // and display a loading bar until then
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Form is not valid")));
-                        }
-                      },
-                      child: const Text("CREATE NEW LIFE GOAL")),
+                        Navigator.of(context).pop();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Form is not valid"),
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text("CREATE NEW LIFE GOAL"),
+                  ),
                 ),
               ]),
             ),
