@@ -7,19 +7,26 @@ class CategoriesWidget extends StatelessWidget {
 
   List<LifeGoalCategory> categories;
 
-  List<Widget> createTextFields(List<LifeGoalCategory> cat) {
-    List<Widget> textFields = [];
-    cat.forEach((element) {
-      textFields.add(Text('${element.label}: ${element.firebaseID}'));
-    });
+  List<Widget> createCategoryChips(List<LifeGoalCategory> cat) {
+    List<Widget> chips = [];
+    for (var element in cat) {
+      chips.add(
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 3),
+          child: Chip(
+            label: Text(element.label),
+          ),
+        ),
+      );
+    }
 
-    return textFields;
+    return chips;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: createTextFields(categories),
+    return Wrap(
+      children: createCategoryChips(categories),
     );
   }
 }
