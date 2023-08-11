@@ -2,13 +2,17 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:diem/constants/constants.dart';
+import 'package:diem/features/authentication/screens/authenticated/list_page.dart';
+import 'package:diem/features/authentication/screens/authenticated/map_page.dart';
+import 'package:diem/features/authentication/screens/authenticated/people_page.dart';
 import 'package:diem/features/authentication/screens/unauthenticated/auth_widget.dart';
-import 'package:diem/screens/list_page.dart';
-import 'package:diem/screens/map_page.dart';
-import 'package:diem/screens/people_page.dart';
+import 'package:diem/features/bucket_list/widgets/new_life_goal_bottomsheet_widget.dart';
+import 'package:diem/features/database/local_db_singleton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sqflite/sqlite_api.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -23,15 +27,15 @@ void main() async {
     connectToEmulators();
   }
 
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 void connectToEmulators() async {
   final yourLocalIp = Platform.isAndroid ? "127.0.0.1" : "localhost";
   print("connecting to emulators...");
 
-  FirebaseFirestore.instance.useFirestoreEmulator("127.0.0.1", 8080);
-  await FirebaseAuth.instance.useAuthEmulator("127.0.0.1", 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator(yourLocalIp, 8080);
+  await FirebaseAuth.instance.useAuthEmulator(yourLocalIp, 9099);
   print("done");
 }
 
@@ -55,14 +59,32 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class MyHomePage extends ConsumerStatefulWidget {
+  const MyHomePage({super.key}) : super();
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends ConsumerState<MyHomePage> {
+  late Database database;
+
+  @override
+  void initState() {
+    super.initState();
+    getDatabaseInstance();
+  }
+
+  void getDatabaseInstance() async {
+    database = await LocalDBSingleton().database;
+    var tableNames = (await database
+            .query('sqlite_master', where: 'type = ?', whereArgs: ['table']))
+        .map((row) => row['name'] as String)
+        .toList(growable: false);
+
+    print(tableNames);
+  }
+
   int _currentNavBarIndex = 0;
 
   final bottomNavBarItems = <BottomNavigationBarItem>[
@@ -85,22 +107,44 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: bottomNavBarItems,
-        currentIndex: _currentNavBarIndex,
-        onTap: onTapBottomNavBarItem,
-      ),
-      body: Center(
-        child: _mainMenuItem.elementAt(_currentNavBarIndex),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
-    );
+    return Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: bottomNavBarItems,
+          currentIndex: _currentNavBarIndex,
+          onTap: onTapBottomNavBarItem,
+        ),
+        body: Center(
+          child: _mainMenuItem.elementAt(_currentNavBarIndex),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _showBottomSheet(),
+          child: const Icon(Icons.add),
+        ),
+      );
+    });
+  }
+
+  void _showBottomSheet() {
+    TextEditingController titleController = TextEditingController();
+    TextEditingController descriptionController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    showModalBottomSheet(
+        context: context,
+        showDragHandle: true,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return NewLifeGoalBottomSheet(
+            formKey: formKey,
+            titleController: titleController,
+            descriptionController: descriptionController,
+            db: database,
+          );
+        }).whenComplete(() => {});
   }
 }
