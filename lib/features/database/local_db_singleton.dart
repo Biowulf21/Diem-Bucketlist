@@ -8,11 +8,14 @@ import 'package:sqflite/sqflite.dart';
 
 class LocalDBSingleton {
   Database? _instance;
+  String? dbName;
+
+  LocalDBSingleton({this.dbName});
 
   Future<Database> get database async {
     if (_instance != null) return _instance!;
 
-    _instance = await _initDB('main.db');
+    _instance = await _initDB(dbName ??= 'main.db');
     return _instance!;
   }
 
