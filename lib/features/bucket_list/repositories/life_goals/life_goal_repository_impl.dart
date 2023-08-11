@@ -40,6 +40,7 @@ class LifeGoalImplRepository implements LifeGoalRepository {
           firebaseID: FirebaseDocIDGenerator.createRandomID(),
         );
 
+        //FIXME: this creates two records of the same relationship in the database
         relationshipList.add(relationship);
         counter++;
       }
