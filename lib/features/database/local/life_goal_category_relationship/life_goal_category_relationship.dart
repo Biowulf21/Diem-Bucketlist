@@ -60,21 +60,20 @@ class LifeGoalCategoryRelationshipDBHelper
     //TODO: correct this query: so far it says that firebaseID is not found
     // categories table
     const query = '''
-      SELECT lgr.goal_id,
-            lg.title AS goal_title,
-            lgc.category_id,
-            lgc.label AS category_label
-      FROM life_goal_category_relationship AS lgr
-      INNER JOIN life_goals AS lg ON lgr.goal_id = lg.firebaseID
-      INNER JOIN life_goal_categories AS lgc ON lgr.category_id = lgc.firebaseID
-      WHERE lg.firebaseID = ?;
+    SELECT lgr.goal_id,
+          lg.title AS goal_title,
+          lgc.category_id,
+          lgc.label AS category_label
+    FROM life_goal_category_relationship AS lgr
+    INNER JOIN life_goals AS lg ON lgr.goal_id = lg.firebaseID
+    INNER JOIN life_goal_categories AS lgc ON lgr.category_id = lgc.firebaseID
+    WHERE lg.firebaseID = ?;
   ''';
 
     final List<Map<String, dynamic>> result = await db.rawQuery(query, [id]);
     return result
-        .map((e) => LifeGoalCategory(
-            label: e['category_label'], firebaseID: e['category_id']))
-        .toList();
+        .map((e) =>
+            LifeGoalCategory(label: e['category_label'], firebaseID: e['category_id'])).toList();
   }
 
   @override
