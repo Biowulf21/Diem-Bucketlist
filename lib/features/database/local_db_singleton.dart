@@ -5,6 +5,7 @@ import 'package:diem/utils/firebase_doc_id_generator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class LocalDBSingleton {
   Database? _instance;
@@ -20,9 +21,20 @@ class LocalDBSingleton {
   }
 
   Future<Database> _initDB(String filePath) async {
+    if (filePath != 'main.db') {
+      return await runTestingEnvironement();
+    }
     Directory dbDirectory = await getApplicationSupportDirectory();
     String path = join(dbDirectory.path, filePath);
     return await openDatabase(path, version: 1, onCreate: _onCreateDb);
+  }
+
+  Future<Database> runTestingEnvironement() async {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+    var db = await databaseFactory.openDatabase(inMemoryDatabasePath, );
+    print(db);
+    return db;
   }
 
   Future<void> _onCreateDb(Database db, int version) async {
