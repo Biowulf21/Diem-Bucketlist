@@ -85,4 +85,25 @@ class LifeGoalCategoryRelationshipDBHelper
     return await db.update('life_goal_category_relationship', category.toJson(),
         where: 'firebaseID = ?', whereArgs: [category.firebaseID]);
   }
+
+  Future<List<LifeGoalCategoryRelationship>> getAllRelationships() async {
+    Database db = instance;
+
+    List<LifeGoalCategoryRelationship> relationships = [];
+    const query = '''
+    SELECT * 
+    FROM life_goal_category_relationship
+    ''';
+
+    final List<Map<String, dynamic>> result = await db.rawQuery(query);
+
+    relationships = result
+        .map((e) => LifeGoalCategoryRelationship(
+            goalID: e['goal_id'],
+            categoryID: e['category_id'],
+            firebaseID: e['firebaseID']))
+        .toList();
+
+    return relationships;
+  }
 }
