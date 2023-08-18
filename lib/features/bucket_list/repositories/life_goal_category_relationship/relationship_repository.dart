@@ -9,4 +9,5 @@ abstract class LifeGoalCategoryRelationshipAbstract {
       {required String firebaseID});
   Future<List<LifeGoalCategoryRelationship>> getRelationship(
       {required String lifeGoalID, required String categoryID});
+  Future<List<LifeGoalCategoryRelationship>> getAllRelationships();
 }
