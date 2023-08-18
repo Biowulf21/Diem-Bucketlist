@@ -5,8 +5,6 @@ import 'package:sqflite/sqflite.dart';
 
 import 'category_repository.dart';
 
-//TODO: create a custom action result class that has a result enum and message
-// apply this change to all repositories and db helpers
 class LifeGoalCategoryRepositoryImpl
     implements LifeGoalCategoryRepositoryAbstract {
   late Database _instance;
