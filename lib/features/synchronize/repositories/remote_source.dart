@@ -9,3 +9,21 @@ abstract class RemoteSourceAbstract {
   Future<void> syncToLocal();
 }
 
+class FirebaseRemoteSource implements RemoteSourceAbstract {
+  @override
+  Future<void> syncToLocal() {
+    // TODO: implement synchToLocal
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> syncToRemote() {
+    List<LifeGoalCategory> categories = [];
+    List<LifeGoal> goals = [];
+    List<LifeGoalCategoryRelationship> relationships = [];
+
+    LifeGoalImplRepository goalRepository = LifeGoalImplRepository();
+    LifeGoalCat
+    try {} catch (e) {}
+  }
+}
