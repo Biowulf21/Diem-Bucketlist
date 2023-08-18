@@ -55,4 +55,18 @@ class LifeGoalCategoryRelationshipImpl
 
     return relationship;
   }
+
+  @override
+  Future<List<LifeGoalCategoryRelationship>> getAllRelationships()async{
+
+    List<LifeGoalCategoryRelationship> relationship =
+        await LifeGoalCategoryRelationshipDBHelper(instance: _instance)
+            .getAllRelationships();
+
+    return relationship;
+    }
+
+
+
+
 }
