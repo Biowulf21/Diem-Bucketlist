@@ -17,6 +17,10 @@ class LifeGoalCategoryRelationship {
   }
 
   Map<String, dynamic> toJson() {
-    return {'goalID': goalID, 'firebaseID': firebaseID};
+    return {
+      'goalID': goalID,
+      'firebaseID': firebaseID,
+      'categoryID': categoryID,
+    };
   }
 }
