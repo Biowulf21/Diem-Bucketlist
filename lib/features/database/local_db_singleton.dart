@@ -92,8 +92,10 @@ class LocalDBSingleton {
     await db.execute('''
     CREATE TABLE IF NOT EXISTS for_synch(
       firebaseID PRIMARY KEY ,
-      life_goal_id TEXT NOT NULL,
-      FOREIGN KEY (life_goal_id) REFERENCES life_goals(firebaseID) 
+      recordID TEXT NOT NULL,
+      table_name TEXT NOT NULL,
+      action TEXT NOT NULL,
+      date_created INT NOT NULL,
     )
     ''');
   }
